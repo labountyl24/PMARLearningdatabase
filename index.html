@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PMAR Agent</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #f4f3ef; --surface: #fff; --surface2: #eeecea; --surface3: #e6e4e0;
+  --border: #dddbd5; --border2: #c8c5be;
+  --text: #18170f; --text2: #6a6760; --text3: #a09d96;
+  --accent: #1d5fa8; --accent-light: #e4edf8; --accent-text: #163f72;
+  --amber: #c47d0e; --amber-light: #fef4e0; --amber-text: #7a4d08;
+  --red: #c0332b; --red-light: #fdecea; --red-text: #8a1f1a;
+  --green: #2a7a42; --green-light: #e6f4ec; --green-text: #1a5230;
+  --radius: 12px; --radius-sm: 7px;
+}
+body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+.shell { display: grid; grid-template-columns: 240px 1fr; min-height: 100vh; }
+.sidebar { background: var(--surface); border-right: 1px solid var(--border); padding: 1.25rem; display: flex; flex-direction: column; gap: 1.5rem; }
+.brand { display: flex; align-items: center; gap: 10px; }
+.brand-icon { width: 32px; height: 32px; background: var(--accent); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.brand-icon svg { width: 16px; height: 16px; fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round; }
+.brand-name { font-size: 14px; font-weight: 500; }
+.brand-sub { font-size: 11px; color: var(--text3); }
+.nav { display: flex; flex-direction: column; gap: 2px; }
+.nav-btn { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-radius: var(--radius-sm); cursor: pointer; font-size: 13px; color: var(--text2); background: transparent; border: none; font-family: 'DM Sans', sans-serif; width: 100%; text-align: left; transition: background 0.1s; }
+.nav-btn:hover { background: var(--surface2); color: var(--text); }
+.nav-btn.active { background: var(--accent-light); color: var(--accent-text); font-weight: 500; }
+.nav-btn svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; flex-shrink: 0; }
+.nav-label { font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; padding: 0 10px; margin-top: 4px; }
+.queue-item { display: flex; align-items: center; gap: 8px; padding: 7px 10px; border-radius: var(--radius-sm); font-size: 12px; color: var(--text2); }
+.queue-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.queue-dot.routine { background: var(--accent); } .queue-dot.same-day { background: var(--amber); } .queue-dot.urgent { background: var(--red); }
+.queue-snippet { flex: 1; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.qbadge { font-size: 10px; font-weight: 500; padding: 2px 6px; border-radius: 8px; white-space: nowrap; }
+.qb-pmar { background: var(--accent-light); color: var(--accent-text); } .qb-evisit { background: var(--amber-light); color: var(--amber-text); } .qb-urgent { background: var(--red-light); color: var(--red-text); } .qb-unclear { background: var(--surface2); color: var(--text2); }
+.learning-pill { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--green-text); background: var(--green-light); border-radius: 20px; padding: 4px 10px; margin-top: auto; }
+.learning-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.4;} }
+.main { display: flex; flex-direction: column; overflow: hidden; }
+.topbar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 1rem 1.5rem; display: flex; align-items: center; justify-content: space-between; }
+.topbar-title { font-size: 15px; font-weight: 500; }
+.topbar-sub { font-size: 12px; color: var(--text3); margin-top: 1px; }
+.stats-row { display: flex; gap: 6px; }
+.stat-chip { font-size: 12px; padding: 4px 10px; border-radius: 20px; background: var(--surface2); color: var(--text2); }
+.page { display: none; padding: 1.25rem; flex-direction: column; gap: 1.25rem; overflow-y: auto; flex: 1; }
+.page.active { display: flex; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; }
+.card-header { font-size: 13px; font-weight: 500; color: var(--text2); margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+.card textarea { width: 100%; min-height: 95px; resize: vertical; font-size: 14px; font-family: 'DM Sans', sans-serif; line-height: 1.6; padding: 10px 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--bg); color: var(--text); }
+.card textarea:focus { outline: none; border-color: var(--accent); }
+.card textarea::placeholder { color: var(--text3); }
+.input-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 8px; }
+.char-count { font-size: 12px; color: var(--text3); }
+.btn-row { display: flex; gap: 7px; }
+.btn-primary { background: var(--accent); color: #fff; border: none; border-radius: var(--radius-sm); padding: 8px 18px; font-size: 13px; font-weight: 500; font-family: 'DM Sans', sans-serif; cursor: pointer; display: flex; align-items: center; gap: 5px; }
+.btn-primary:hover { opacity: 0.88; } .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+.btn-ghost { background: transparent; color: var(--text2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 8px 13px; font-size: 13px; font-family: 'DM Sans', sans-serif; cursor: pointer; }
+.btn-ghost:hover { background: var(--surface2); }
+.chips { display: flex; flex-wrap: wrap; gap: 5px; }
+.chip { font-size: 12px; font-family: 'DM Sans', sans-serif; padding: 4px 10px; border: 1px solid var(--border2); border-radius: 20px; cursor: pointer; color: var(--text2); background: var(--surface); }
+.chip:hover { background: var(--surface2); color: var(--text); }
+.spinner-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; }
+.spinner-row { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.spinner { width: 18px; height: 18px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.75s linear infinite; flex-shrink: 0; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.steps { display: flex; flex-direction: column; gap: 5px; }
+.step { font-size: 12px; color: var(--text3); display: flex; align-items: center; gap: 7px; }
+.sdot { width: 6px; height: 6px; border-radius: 50%; background: var(--border2); flex-shrink: 0; }
+.sdot.done { background: var(--green); } .sdot.active { background: var(--accent); animation: pulse 1s infinite; }
+.result-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; animation: fadeUp 0.25s ease; }
+@keyframes fadeUp { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:none; } }
+.result-header { padding: 12px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.rbadge { font-size: 12px; font-weight: 500; padding: 4px 10px; border-radius: 20px; }
+.rb-pmar { background: var(--accent-light); color: var(--accent-text); } .rb-evisit { background: var(--amber-light); color: var(--amber-text); } .rb-urgent { background: var(--red-light); color: var(--red-text); } .rb-unclear { background: var(--surface2); color: var(--text2); }
+.pbadge { font-size: 11px; font-weight: 500; padding: 3px 8px; border-radius: 20px; }
+.pb-routine { background: var(--green-light); color: var(--green-text); } .pb-same-day { background: var(--amber-light); color: var(--amber-text); } .pb-urgent { background: var(--red-light); color: var(--red-text); }
+.confidence-badge { font-size: 11px; padding: 3px 8px; border-radius: 20px; margin-left: auto; }
+.cb-high { background: var(--green-light); color: var(--green-text); } .cb-medium { background: var(--amber-light); color: var(--amber-text); } .cb-low { background: var(--red-light); color: var(--red-text); }
+.result-body { padding: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.rs { display: flex; flex-direction: column; gap: 5px; } .rs.full { grid-column: 1/-1; }
+.sl { font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; }
+.st { font-size: 14px; color: var(--text); line-height: 1.6; }
+.assign-box { background: var(--accent-light); border-radius: var(--radius-sm); padding: 10px 12px; }
+.assign-role { font-size: 14px; font-weight: 500; color: var(--accent-text); }
+.assign-reason { font-size: 12px; color: var(--accent); margin-top: 2px; }
+.flag-box { background: var(--amber-light); border-radius: var(--radius-sm); padding: 9px 12px; font-size: 13px; font-weight: 500; color: var(--amber-text); }
+.flag-box.emergency { background: var(--red-light); color: var(--red-text); }
+.divider { border: none; border-top: 1px solid var(--border); grid-column: 1/-1; }
+.approval-section { border-top: 1px solid var(--border); padding: 16px; background: var(--bg); }
+.approval-label { font-size: 12px; font-weight: 500; color: var(--text2); margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+.approval-label::before { content:''; display:block; width:6px; height:6px; border-radius:50%; background:var(--amber); }
+.draft-ta { width: 100%; min-height: 90px; resize: vertical; font-size: 14px; font-family: 'DM Sans', sans-serif; line-height: 1.7; padding: 10px 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface); color: var(--text); }
+.draft-ta:focus { outline: none; border-color: var(--accent); }
+.approval-actions { display: flex; gap: 7px; margin-top: 8px; align-items: center; }
+.btn-approve { background: var(--green); color: #fff; border: none; border-radius: var(--radius-sm); padding: 8px 18px; font-size: 13px; font-weight: 500; font-family: 'DM Sans', sans-serif; cursor: pointer; display: flex; align-items: center; gap: 5px; }
+.btn-approve:hover { opacity: 0.88; } .btn-approve:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn-discard { background: transparent; color: var(--red-text); border: 1px solid #f0b0ac; border-radius: var(--radius-sm); padding: 8px 13px; font-size: 13px; font-family: 'DM Sans', sans-serif; cursor: pointer; }
+.btn-discard:hover { background: var(--red-light); }
+.approved-banner { background: var(--green-light); border: 1px solid #b0dfc0; border-radius: var(--radius-sm); padding: 10px 14px; display: flex; align-items: center; gap: 8px; margin-top: 8px; animation: fadeUp 0.2s ease; }
+.approved-banner svg { width: 16px; height: 16px; fill: none; stroke: var(--green); stroke-width: 2.5; stroke-linecap: round; flex-shrink: 0; }
+.approved-text { font-size: 13px; color: var(--green-text); flex: 1; }
+.recopy-btn { background: transparent; border: 1px solid #b0dfc0; border-radius: var(--radius-sm); padding: 4px 10px; font-size: 12px; font-family: 'DM Sans', sans-serif; color: var(--green-text); cursor: pointer; }
+
+/* Feedback panel */
+.feedback-panel { border-top: 1px solid var(--border); padding: 14px 16px; }
+.feedback-toggle { display: flex; align-items: center; gap: 7px; font-size: 13px; color: var(--text2); cursor: pointer; background: none; border: none; font-family: 'DM Sans', sans-serif; padding: 0; width: 100%; }
+.feedback-toggle:hover { color: var(--text); }
+.toggle-arrow { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; margin-left: auto; transition: transform 0.2s; flex-shrink: 0; }
+.feedback-toggle.open .toggle-arrow { transform: rotate(180deg); }
+.feedback-icon { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; flex-shrink: 0; }
+.feedback-body { margin-top: 14px; display: flex; flex-direction: column; gap: 12px; }
+.fb-row { display: flex; flex-direction: column; gap: 6px; }
+.fb-label { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.07em; }
+.rating-btns { display: flex; gap: 6px; flex-wrap: wrap; }
+.rating-btn { font-size: 12px; font-family: 'DM Sans', sans-serif; padding: 5px 13px; border-radius: 20px; border: 1px solid var(--border2); background: transparent; color: var(--text2); cursor: pointer; }
+.rating-btn:hover { border-color: var(--accent); color: var(--accent-text); }
+.rating-btn.sel-accurate { background: var(--green-light); color: var(--green-text); border-color: #b0dfc0; }
+.rating-btn.sel-minor_fix { background: var(--amber-light); color: var(--amber-text); border-color: #e8c87a; }
+.rating-btn.sel-wrong { background: var(--red-light); color: var(--red-text); border-color: #f0b0ac; }
+.correction-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.fb-select { font-size: 13px; font-family: 'DM Sans', sans-serif; padding: 7px 10px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface); color: var(--text); width: 100%; }
+.fb-select:focus { outline: none; border-color: var(--accent); }
+.fb-note { width: 100%; font-size: 13px; font-family: 'DM Sans', sans-serif; line-height: 1.6; padding: 9px 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface); color: var(--text); resize: vertical; min-height: 65px; }
+.fb-note:focus { outline: none; border-color: var(--accent); }
+.fb-note::placeholder { color: var(--text3); }
+.btn-fb-submit { background: var(--surface2); color: var(--text); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 7px 16px; font-size: 13px; font-weight: 500; font-family: 'DM Sans', sans-serif; cursor: pointer; align-self: flex-start; }
+.btn-fb-submit:hover { background: var(--surface3); }
+.btn-fb-submit:disabled { opacity: 0.4; cursor: not-allowed; }
+.fb-sent { font-size: 13px; color: var(--green-text); display: flex; align-items: center; gap: 6px; }
+.fb-sent svg { width: 14px; height: 14px; fill: none; stroke: var(--green); stroke-width: 2.5; stroke-linecap: round; }
+
+/* Analytics */
+.analytics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.analytics-grid .full { grid-column: 1/-1; }
+.metric-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; }
+.metric-label { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 6px; }
+.metric-value { font-size: 28px; font-weight: 300; color: var(--text); letter-spacing: -0.02em; }
+.metric-sub { font-size: 12px; color: var(--text3); margin-top: 4px; }
+.bar-chart { display: flex; flex-direction: column; gap: 8px; }
+.bar-row { display: flex; align-items: center; gap: 10px; }
+.bar-label { font-size: 13px; color: var(--text2); width: 160px; flex-shrink: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.bar-track { flex: 1; height: 8px; background: var(--surface2); border-radius: 4px; overflow: hidden; }
+.bar-fill { height: 100%; border-radius: 4px; background: var(--accent); transition: width 0.6s ease; }
+.bar-fill.amber { background: var(--amber); } .bar-fill.red { background: var(--red); }
+.bar-count { font-size: 12px; color: var(--text3); width: 30px; text-align: right; }
+.routing-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; }
+.routing-cell { background: var(--surface2); border-radius: var(--radius-sm); padding: 10px; text-align: center; }
+.routing-cell-value { font-size: 20px; font-weight: 300; }
+.routing-cell-label { font-size: 11px; color: var(--text3); margin-top: 2px; }
+.trend-chip { display: inline-flex; font-size: 12px; color: var(--accent-text); background: var(--accent-light); border-radius: 20px; padding: 4px 10px; margin: 3px; }
+.daily-bars { display: flex; align-items: flex-end; gap: 4px; height: 80px; }
+.day-bar-wrap { display: flex; flex-direction: column; align-items: center; gap: 4px; flex: 1; }
+.day-bar { width: 100%; background: var(--accent-light); border-radius: 3px 3px 0 0; min-height: 2px; transition: height 0.4s ease; }
+.day-bar:hover { background: var(--accent); }
+.day-label { font-size: 9px; color: var(--text3); }
+.fb-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.fb-table th { font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.07em; text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--border); font-weight: 400; }
+.fb-table td { padding: 8px; border-bottom: 1px solid var(--border); color: var(--text2); vertical-align: top; }
+.fb-table tr:last-child td { border-bottom: none; }
+.rp { font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: 20px; white-space: nowrap; }
+.rp-accurate { background: var(--green-light); color: var(--green-text); }
+.rp-minor_fix { background: var(--amber-light); color: var(--amber-text); }
+.rp-wrong { background: var(--red-light); color: var(--red-text); }
+.no-data { font-size: 14px; color: var(--text3); padding: 2rem; text-align: center; }
+.error-card { background: var(--red-light); border: 1px solid #f0b0ac; border-radius: var(--radius); padding: 12px 16px; font-size: 14px; color: var(--red-text); line-height: 1.6; }
+.hidden { display: none; }
+@media (max-width: 700px) { .shell { grid-template-columns: 1fr; } .sidebar { display: none; } .result-body,.correction-grid { grid-template-columns: 1fr; } .analytics-grid { grid-template-columns: 1fr; } .routing-grid { grid-template-columns: repeat(2,1fr); } }
+</style>
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-icon"><svg viewBox="0 0 24 24"><path d="M9 12h6M12 9v6M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0"/></svg></div>
+      <div><div class="brand-name">PMAR Agent</div><div class="brand-sub">AI-assisted triage</div></div>
+    </div>
+    <div class="nav">
+      <button class="nav-btn active" onclick="showPage('triage',this)">
+        <svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2"/></svg>
+        Triage messages
+      </button>
+      <button class="nav-btn" onclick="showPage('analytics',this)">
+        <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        Analytics &amp; learning
+      </button>
+    </div>
+    <div>
+      <div class="nav-label" style="margin-bottom:8px;">Session queue</div>
+      <div id="queueList"><div style="font-size:12px;color:var(--text3);padding:4px 10px;">No messages yet</div></div>
+    </div>
+    <div class="learning-pill" id="learningPill" style="display:none;">
+      <div class="learning-dot"></div>Learning from <span id="learnCount">0</span> messages
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <div>
+        <div class="topbar-title" id="pageTitle">Message triage</div>
+        <div class="topbar-sub" id="pageSub">Review, edit, and approve AI-drafted responses</div>
+      </div>
+      <div class="stats-row" id="statsRow" style="display:none;">
+        <div class="stat-chip" id="statTotal">0 analyzed</div>
+        <div class="stat-chip" id="statApproved">0 approved</div>
+        <div class="stat-chip" id="statFeedback" style="display:none;">0 feedback</div>
+      </div>
+    </div>
+
+    <div class="page active" id="page-triage">
+      <div class="card">
+        <div class="card-header"><span>Patient message</span><span style="font-size:11px;color:var(--text3);">Paste from Epic In Basket</span></div>
+        <textarea id="msgInput" placeholder="Paste or type the patient's message here..."></textarea>
+        <div class="input-footer">
+          <span class="char-count" id="charCount">0 characters</span>
+          <div class="btn-row">
+            <button class="btn-ghost" onclick="clearAll()">Clear</button>
+            <button class="btn-primary" id="analyzeBtn" onclick="analyze()">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+              Run agent
+            </button>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:7px;">Quick examples</div>
+        <div class="chips">
+          <button class="chip" onclick="loadEx('My knee has been swollen and painful for 3 days and I can barely walk.')">Swollen knee</button>
+          <button class="chip" onclick="loadEx('I need a refill on my lisinopril 10mg. I have been stable on it for 2 years.')">Routine refill</button>
+          <button class="chip" onclick="loadEx('I have been feeling very depressed and having thoughts of hurting myself.')">Mental health</button>
+          <button class="chip" onclick="loadEx('Can you send my immunization records to my son\'s school? Fax: 612-555-0192.')">Records request</button>
+          <button class="chip" onclick="loadEx('I started my new BP medication yesterday and now I have a bad rash on my chest.')">Med reaction</button>
+          <button class="chip" onclick="loadEx('I don\'t see any results for my thyroid. Was this missed?')">Missing results</button>
+        </div>
+      </div>
+      <div id="output"></div>
+    </div>
+
+    <div class="page" id="page-analytics">
+      <div id="analyticsContent"><div class="no-data">Loading analytics...</div></div>
+    </div>
+  </main>
+</div>
+
+<script>
+const msgInput = document.getElementById('msgInput');
+const charCount = document.getElementById('charCount');
+const analyzeBtn = document.getElementById('analyzeBtn');
+const output = document.getElementById('output');
+let totalAnalyzed=0, totalApproved=0, totalFeedback=0, sessionQueue=[], currentResult=null, selectedRating=null;
+
+msgInput.addEventListener('input', ()=>{ charCount.textContent=msgInput.value.length+' characters'; });
+function loadEx(t){ msgInput.value=t; charCount.textContent=t.length+' characters'; msgInput.focus(); }
+function clearAll(){ msgInput.value=''; charCount.textContent='0 characters'; output.innerHTML=''; currentResult=null; }
+
+function showPage(name, btn){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  btn.classList.add('active');
+  const t={triage:['Message triage','Review, edit, and approve AI-drafted responses'],analytics:['Analytics & learning','Patterns and feedback from your clinic\'s messages']};
+  document.getElementById('pageTitle').textContent=t[name][0];
+  document.getElementById('pageSub').textContent=t[name][1];
+  if(name==='analytics') loadAnalytics();
+}
+
+const getBadge=r=>r==='PMAR'?'rb-pmar':r==='E-Visit'?'rb-evisit':r==='Urgent'?'rb-urgent':'rb-unclear';
+const getLabel=r=>r==='PMAR'?'Appropriate PMAR':r==='E-Visit'?'Should be E-Visit':r==='Urgent'?'Urgent — escalate':'Needs clarification';
+const getPB=p=>p==='Urgent'?'pb-urgent':p==='Same Day'?'pb-same-day':'pb-routine';
+const getCB=c=>c==='High'?'cb-high':c==='Medium'?'cb-medium':'cb-low';
+const getQD=p=>p==='Urgent'?'urgent':p==='Same Day'?'same-day':'routine';
+const getQB=r=>r==='PMAR'?'qb-pmar':r==='E-Visit'?'qb-evisit':r==='Urgent'?'qb-urgent':'qb-unclear';
+
+async function analyze(){
+  const message=msgInput.value.trim();
+  if(!message){ alert('Please enter a patient message.'); return; }
+  analyzeBtn.disabled=true; currentResult=null; selectedRating=null;
+  output.innerHTML=`<div class="spinner-card"><div class="spinner-row"><div class="spinner"></div><span style="font-size:14px;color:var(--text2);">Agent analyzing...</span></div><div class="steps"><div class="step"><div class="sdot done"></div>Reading message</div><div class="step"><div class="sdot active"></div>Classifying and routing</div><div class="step"><div class="sdot"></div>Assigning to staff role</div><div class="step"><div class="sdot"></div>Drafting patient reply</div></div></div>`;
+  try{
+    const resp=await fetch('/api/triage',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({message})});
+    const r=await resp.json();
+    if(!resp.ok) throw new Error(r.error||'Server error');
+    currentResult={...r,originalMessage:message};
+    renderResult(r,message);
+    totalAnalyzed++; addToQueue(message,r); updateStats();
+  }catch(err){
+    output.innerHTML=`<div class="error-card"><strong>Error:</strong> ${err.message}</div>`;
+  }
+  analyzeBtn.disabled=false;
+}
+
+function renderResult(r,message){
+  const flagHtml=r.flag&&r.flag!=='null'?`<div class="rs full"><div class="flag-box ${r.flag==='emergency'?'emergency':''}">${r.flag==='billing_opportunity'?'Billing opportunity — may qualify as a billable E-Visit':r.flag==='emergency'?'Emergency — escalate immediately':'Clinical review needed before responding'}</div></div>`:'';
+  const evisitHtml=r.e_visit_redirect?`<div class="rs full"><div class="flag-box">Patient should be redirected to E-Visit — include instructions in reply</div></div>`:'';
+  output.innerHTML=`
+    <div class="result-card">
+      <div class="result-header">
+        <span class="rbadge ${getBadge(r.routing)}">${getLabel(r.routing)}</span>
+        <span class="pbadge ${getPB(r.priority)}">${r.priority}</span>
+        <span style="font-size:13px;color:var(--text2);">${r.message_type}</span>
+        <span class="confidence-badge ${getCB(r.confidence)}" title="${r.confidence_reason||''}">${r.confidence} confidence</span>
+      </div>
+      <div class="result-body">
+        <div class="rs full"><div class="sl">Reasoning</div><div class="st">${r.reasoning}</div></div>
+        <div class="divider"></div>
+        <div class="rs"><div class="sl">Assigned to</div><div class="assign-box"><div class="assign-role">${r.assigned_role}</div><div class="assign-reason">${r.assignment_reason}</div></div></div>
+        <div class="rs"><div class="sl">Suggested action</div><div class="st">${r.suggested_action}</div></div>
+        ${r.confidence==='Low'?`<div class="rs full"><div class="sl">Confidence note</div><div class="st" style="color:var(--amber-text);">${r.confidence_reason}</div></div>`:''}
+        ${flagHtml}${evisitHtml}
+      </div>
+
+      <div class="approval-section">
+        <div class="approval-label">Draft reply — review and edit before approving</div>
+        <textarea class="draft-ta" id="draftText">${r.draft_reply}</textarea>
+        <div class="approval-actions">
+          <button class="btn-approve" id="approveBtn" onclick="approve()">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+            Approve &amp; copy
+          </button>
+          <button class="btn-discard" onclick="clearAll()">Discard</button>
+          <span style="font-size:12px;color:var(--text3);margin-left:auto;">Edit above before approving</span>
+        </div>
+        <div id="approvedBanner" class="hidden"></div>
+      </div>
+
+      <div class="feedback-panel">
+        <button class="feedback-toggle" id="fbToggle" onclick="toggleFb()">
+          <svg class="feedback-icon" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          Was this response accurate? Leave feedback
+          <svg class="toggle-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="feedback-body hidden" id="fbBody">
+          <div class="fb-row">
+            <div class="fb-label">How accurate was the AI response?</div>
+            <div class="rating-btns">
+              <button class="rating-btn" onclick="setRating('accurate',this)">Accurate</button>
+              <button class="rating-btn" onclick="setRating('minor_fix',this)">Needed minor fix</button>
+              <button class="rating-btn" onclick="setRating('wrong',this)">Incorrect</button>
+            </div>
+          </div>
+          <div class="fb-row hidden" id="correctionRow">
+            <div class="fb-label">What should it have been?</div>
+            <div class="correction-grid">
+              <div><div style="font-size:11px;color:var(--text3);margin-bottom:4px;">Correct routing</div>
+                <select class="fb-select" id="corrRouting"><option value="">— same as AI —</option><option>PMAR</option><option>E-Visit</option><option>Urgent</option><option>Unclear</option></select>
+              </div>
+              <div><div style="font-size:11px;color:var(--text3);margin-bottom:4px;">Correct staff role</div>
+                <select class="fb-select" id="corrRole"><option value="">— same as AI —</option><option>Front Desk</option><option>Medical Assistant</option><option>Nurse</option><option>Clinician</option><option>Behavioral Health</option></select>
+              </div>
+            </div>
+          </div>
+          <div class="fb-row">
+            <div class="fb-label">Additional notes (optional)</div>
+            <textarea class="fb-note" id="fbNote" placeholder="Describe what was wrong or how it could be improved..."></textarea>
+          </div>
+          <button class="btn-fb-submit" id="fbSubmitBtn" onclick="submitFeedback()">Submit feedback</button>
+          <div id="fbSent" class="hidden fb-sent"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Feedback submitted — thank you!</div>
+        </div>
+      </div>
+    </div>`;
+}
+
+function toggleFb(){
+  const body=document.getElementById('fbBody');
+  const toggle=document.getElementById('fbToggle');
+  const open=!body.classList.contains('hidden');
+  body.classList.toggle('hidden',open);
+  toggle.classList.toggle('open',!open);
+}
+
+function setRating(rating,btn){
+  selectedRating=rating;
+  document.querySelectorAll('.rating-btn').forEach(b=>b.className='rating-btn');
+  btn.className=`rating-btn sel-${rating}`;
+  const cr=document.getElementById('correctionRow');
+  cr.classList.toggle('hidden', rating==='accurate');
+}
+
+async function submitFeedback(){
+  if(!selectedRating){ alert('Please select an accuracy rating first.'); return; }
+  if(!currentResult) return;
+  const btn=document.getElementById('fbSubmitBtn');
+  btn.disabled=true; btn.textContent='Submitting...';
+  try{
+    await fetch('/api/feedback',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({
+      originalMessage:currentResult.originalMessage,
+      aiRouting:currentResult.routing,
+      aiRole:currentResult.assigned_role,
+      aiReply:document.getElementById('draftText')?.value||'',
+      correctedRouting:document.getElementById('corrRouting')?.value||null,
+      correctedRole:document.getElementById('corrRole')?.value||null,
+      feedbackNote:document.getElementById('fbNote')?.value||'',
+      rating:selectedRating,
+    })});
+    totalFeedback++; updateStats();
+    document.getElementById('fbBody').querySelectorAll('button,select,textarea').forEach(el=>el.disabled=true);
+    document.getElementById('fbSubmitBtn').classList.add('hidden');
+    document.getElementById('fbSent').classList.remove('hidden');
+  }catch(e){
+    btn.disabled=false; btn.textContent='Submit feedback';
+    alert('Could not submit feedback. Please try again.');
+  }
+}
+
+function approve(){
+  const text=document.getElementById('draftText').value;
+  navigator.clipboard.writeText(text).then(()=>{
+    totalApproved++; updateStats();
+    document.getElementById('approveBtn').disabled=true;
+    const b=document.getElementById('approvedBanner');
+    b.innerHTML=`<div class="approved-banner"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span class="approved-text">Copied — paste into Epic In Basket to send</span><button class="recopy-btn" onclick="navigator.clipboard.writeText(document.getElementById('draftText').value)">Copy again</button></div>`;
+    b.classList.remove('hidden');
+  });
+}
+
+function addToQueue(message,r){
+  sessionQueue.unshift({snippet:message.substring(0,28)+(message.length>28?'...':''),routing:r.routing,priority:r.priority});
+  const ql=document.getElementById('queueList');
+  const el=document.createElement('div');
+  el.className='queue-item';
+  el.innerHTML=`<div class="queue-dot ${getQD(r.priority)}"></div><span class="queue-snippet">${sessionQueue[0].snippet}</span><span class="qbadge ${getQB(r.routing)}">${r.routing}</span>`;
+  if(ql.children.length===1&&ql.firstChild.tagName!=='DIV') ql.innerHTML='';
+  ql.prepend(el);
+  document.getElementById('learningPill').style.display='flex';
+  document.getElementById('learnCount').textContent=sessionQueue.length;
+}
+
+function updateStats(){
+  document.getElementById('statsRow').style.display='flex';
+  document.getElementById('statTotal').textContent=totalAnalyzed+' analyzed';
+  document.getElementById('statApproved').textContent=totalApproved+' approved';
+  if(totalFeedback>0){ const fc=document.getElementById('statFeedback'); fc.style.display='block'; fc.textContent=totalFeedback+' feedback'; }
+}
+
+async function loadAnalytics(){
+  const el=document.getElementById('analyticsContent');
+  el.innerHTML='<div class="no-data">Loading...</div>';
+  try{
+    const resp=await fetch('/api/analytics');
+    const data=await resp.json();
+    if(!data.available){ el.innerHTML=`<div class="no-data">Analytics not available yet — analyze some messages first.</div>`; return; }
+    renderAnalytics(data,el);
+  }catch(e){ el.innerHTML=`<div class="no-data">Could not load analytics.</div>`; }
+}
+
+function renderAnalytics(data,el){
+  const p=data.patterns||{}, fb=data.feedbackSummary||{}, rf=data.recentFeedback||[];
+  const total=p.totalMessages||0, topTypes=p.topTypes||[], routing=p.routingCounts||{}, roles=p.roleCounts||{}, trends=p.recentTrends||[], daily=data.dailyData||[];
+  const fbTotal=fb.total||0, fbR=fb.ratings||{}, fbC=fb.corrections||{};
+  const accurate=parseInt(fbR['accurate']||0), minor=parseInt(fbR['minor_fix']||0), wrong=parseInt(fbR['wrong']||0);
+  const accPct=fbTotal>0?Math.round((accurate/fbTotal)*100):null;
+  const maxDay=Math.max(...daily.map(d=>d.count),1);
+  const roleKeys=['Front Desk','Medical Assistant','Nurse','Clinician','Behavioral Health'];
+  const maxType=topTypes.length>0?topTypes[0].count:1;
+  const maxRole=Math.max(...roleKeys.map(k=>parseInt(roles[k]||0)),1);
+  const corrEntries=Object.entries(fbC).sort((a,b)=>b[1]-a[1]).slice(0,5);
+
+  el.innerHTML=`<div class="analytics-grid">
+    <div class="metric-card"><div class="metric-label">Total messages processed</div><div class="metric-value">${total}</div><div class="metric-sub">Across all sessions</div></div>
+    <div class="metric-card"><div class="metric-label">Unique message types</div><div class="metric-value">${topTypes.length}</div><div class="metric-sub">Distinct categories identified</div></div>
+    <div class="metric-card full"><div class="metric-label" style="margin-bottom:10px;">Volume — last 14 days</div><div class="daily-bars">${daily.map(d=>`<div class="day-bar-wrap"><div class="day-bar" style="height:${Math.max(4,Math.round((d.count/maxDay)*72))}px;" title="${d.day}: ${d.count}"></div><div class="day-label">${d.day.slice(5)}</div></div>`).join('')}</div></div>
+    <div class="metric-card"><div class="metric-label" style="margin-bottom:12px;">Routing breakdown</div><div class="routing-grid">${['PMAR','E-Visit','Urgent','Unclear'].map(k=>`<div class="routing-cell"><div class="routing-cell-value">${routing[k]||0}</div><div class="routing-cell-label">${k}</div></div>`).join('')}</div></div>
+    <div class="metric-card"><div class="metric-label" style="margin-bottom:12px;">Staff assignment breakdown</div><div class="bar-chart">${roleKeys.map(k=>{const c=parseInt(roles[k]||0);return`<div class="bar-row"><div class="bar-label">${k}</div><div class="bar-track"><div class="bar-fill" style="width:${Math.round((c/maxRole)*100)}%"></div></div><div class="bar-count">${c}</div></div>`;}).join('')}</div></div>
+    <div class="metric-card full"><div class="metric-label" style="margin-bottom:12px;">Top message types</div>${topTypes.length===0?'<div style="font-size:13px;color:var(--text3);">No data yet</div>':`<div class="bar-chart">${topTypes.slice(0,8).map(t=>`<div class="bar-row"><div class="bar-label">${t.type}</div><div class="bar-track"><div class="bar-fill" style="width:${Math.round((t.count/maxType)*100)}%"></div></div><div class="bar-count">${t.count}</div></div>`).join('')}</div>`}</div>
+    ${trends.length>0?`<div class="metric-card full"><div class="metric-label" style="margin-bottom:10px;">Recent trends</div><div>${trends.map(t=>`<span class="trend-chip">↑ ${t}</span>`).join('')}</div></div>`:''}
+    <div class="metric-card"><div class="metric-label">Staff feedback received</div><div class="metric-value">${fbTotal}</div><div class="metric-sub">${accPct!==null?accPct+'% rated accurate':'No feedback yet'}</div></div>
+    <div class="metric-card"><div class="metric-label" style="margin-bottom:12px;">Feedback breakdown</div>${fbTotal===0?'<div style="font-size:13px;color:var(--text3);">No feedback submitted yet</div>':`<div class="bar-chart"><div class="bar-row"><div class="bar-label">Accurate</div><div class="bar-track"><div class="bar-fill" style="width:${Math.round((accurate/fbTotal)*100)}%"></div></div><div class="bar-count">${accurate}</div></div><div class="bar-row"><div class="bar-label">Minor fix needed</div><div class="bar-track"><div class="bar-fill amber" style="width:${Math.round((minor/fbTotal)*100)}%"></div></div><div class="bar-count">${minor}</div></div><div class="bar-row"><div class="bar-label">Incorrect</div><div class="bar-track"><div class="bar-fill red" style="width:${Math.round((wrong/fbTotal)*100)}%"></div></div><div class="bar-count">${wrong}</div></div></div>`}</div>
+    ${corrEntries.length>0?`<div class="metric-card full"><div class="metric-label" style="margin-bottom:12px;">Common routing corrections</div><div class="bar-chart">${corrEntries.map(([k,c])=>`<div class="bar-row"><div class="bar-label">${k}</div><div class="bar-track"><div class="bar-fill amber" style="width:${Math.round((parseInt(c)/parseInt(corrEntries[0][1]))*100)}%"></div></div><div class="bar-count">${c}</div></div>`).join('')}</div></div>`:''}
+    ${rf.length>0?`<div class="metric-card full"><div class="metric-label" style="margin-bottom:12px;">Recent feedback</div><table class="fb-table"><thead><tr><th>Message</th><th>AI routing</th><th>Rating</th><th>Notes</th></tr></thead><tbody>${rf.map(f=>`<tr><td style="max-width:180px;">${f.originalMessage?f.originalMessage.substring(0,55)+'...':'—'}</td><td><span class="rbadge ${getBadge(f.aiRouting)}" style="font-size:11px;">${f.aiRouting||'—'}</span></td><td><span class="rp rp-${f.rating}">${f.rating==='accurate'?'Accurate':f.rating==='minor_fix'?'Minor fix':'Incorrect'}</span></td><td style="font-size:12px;">${f.feedbackNote||'—'}</td></tr>`).join('')}</tbody></table></div>`:''}
+  </div>`;
+}
+</script>
+</body>
+</html>

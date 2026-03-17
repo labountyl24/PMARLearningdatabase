@@ -1,0 +1,8 @@
+{
+  "version": 2,
+  "rewrites": [
+    { "source": "/api/triage", "destination": "/api/triage.js" },
+    { "source": "/api/analytics", "destination": "/api/analytics.js" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}
