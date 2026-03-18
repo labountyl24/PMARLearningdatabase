@@ -1,4 +1,4 @@
-const { createClient } = require('@vercel/kv');
+const { Redis } = require('@upstash/redis');
 
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -15,10 +15,10 @@ module.exports = async function handler(req, res) {
 
   let learnedContext = '';
   try {
-    const kv = createClient({
-      url: process.env.KV_REST_API_URL,
-      token: process.env.KV_REST_API_TOKEN,
-    });
+ const kv = new Redis({
+  url: process.env.UPSTASH_REDIS_REST_URL,
+  token: process.env.UPSTASH_REDIS_REST_TOKEN,
+});
     const patterns = await kv.get('pmar:patterns');
     if (patterns && patterns.topTypes && patterns.topTypes.length > 0) {
       learnedContext = `\n\nLEARNED PATTERNS FROM THIS CLINIC (use to inform confidence and suggestions):\nMost common message types seen: ${patterns.topTypes.slice(0, 5).map(t => `"${t.type}" (${t.count} times)`).join(', ')}.\nTotal messages processed: ${patterns.totalMessages || 0}.\n${patterns.recentTrends && patterns.recentTrends.length > 0 ? `Recent emerging types: ${patterns.recentTrends.join(', ')}.` : ''}\nUse this context to be more confident in your routing for common message types, and flag any unusual patterns.`;
@@ -101,10 +101,10 @@ For draft_reply: if quickaction is schedule_visit, direct_to_evisit, or direct_t
 async function storePattern(messageType, routing, assignedRole) {
   if (!process.env.KV_REST_API_URL || !process.env.KV_REST_API_TOKEN) return;
   try {
-    const kv = createClient({
-      url: process.env.KV_REST_API_URL,
-      token: process.env.KV_REST_API_TOKEN,
-    });
+const kv = new Redis({
+  url: process.env.UPSTASH_REDIS_REST_URL,
+  token: process.env.UPSTASH_REDIS_REST_TOKEN,
+});
     const dayKey = new Date().toISOString().slice(0, 10);
     await kv.hincrby('pmar:type_counts', messageType, 1);
     await kv.hincrby('pmar:routing_counts', routing, 1);
