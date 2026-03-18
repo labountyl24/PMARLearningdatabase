@@ -48,6 +48,23 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 .stat-chip { font-size: 12px; padding: 4px 10px; border-radius: 20px; background: var(--surface2); color: var(--text2); }
 .page { display: none; padding: 1.25rem; flex-direction: column; gap: 1.25rem; overflow-y: auto; flex: 1; }
 .page.active { display: flex; }
+
+/* HIPAA Banner */
+.hipaa-banner { background: #fff8e6; border: 1px solid #f0c040; border-radius: var(--radius-sm); padding: 12px 16px; display: flex; align-items: flex-start; gap: 10px; }
+.hipaa-banner svg { width: 16px; height: 16px; fill: none; stroke: #b8860b; stroke-width: 2; stroke-linecap: round; flex-shrink: 0; margin-top: 1px; }
+.hipaa-banner-text { font-size: 13px; color: #7a5c00; line-height: 1.5; flex: 1; }
+.hipaa-banner-text strong { font-weight: 500; }
+.hipaa-dismiss { background: transparent; border: none; font-size: 18px; color: #b8860b; cursor: pointer; padding: 0; line-height: 1; flex-shrink: 0; }
+
+/* PHI warning */
+.phi-warning { background: var(--red-light); border: 1px solid #f0b0ac; border-radius: var(--radius-sm); padding: 10px 14px; display: flex; align-items: flex-start; gap: 8px; animation: fadeUp 0.2s ease; }
+.phi-warning svg { width: 15px; height: 15px; fill: none; stroke: var(--red); stroke-width: 2; stroke-linecap: round; flex-shrink: 0; margin-top: 1px; }
+.phi-warning-text { font-size: 13px; color: var(--red-text); line-height: 1.5; }
+
+/* PHI scrubbed notice */
+.phi-scrubbed { background: var(--green-light); border: 1px solid #b0dfc0; border-radius: var(--radius-sm); padding: 8px 14px; display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--green-text); }
+.phi-scrubbed svg { width: 14px; height: 14px; fill: none; stroke: var(--green); stroke-width: 2; stroke-linecap: round; flex-shrink: 0; }
+
 .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; }
 .card-header { font-size: 13px; font-weight: 500; color: var(--text2); margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
 .card textarea { width: 100%; min-height: 95px; resize: vertical; font-size: 14px; font-family: 'DM Sans', sans-serif; line-height: 1.6; padding: 10px 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--bg); color: var(--text); }
@@ -218,9 +235,21 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
     </div>
 
     <div class="page active" id="page-triage">
+
+      <!-- HIPAA Warning Banner -->
+      <div class="hipaa-banner" id="hipaaBanner">
+        <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        <div class="hipaa-banner-text">
+          <strong>Do not enter patient names, MRNs, dates of birth, or other identifying information.</strong>
+          Describe the clinical situation only. PHI is automatically detected and scrubbed, but staff should avoid entering it in the first place.
+        </div>
+        <button class="hipaa-dismiss" onclick="dismissBanner()" title="Dismiss">×</button>
+      </div>
+
       <div class="card">
-        <div class="card-header"><span>Patient message</span><span style="font-size:11px;color:var(--text3);">Paste from Epic In Basket</span></div>
-        <textarea id="msgInput" placeholder="Paste or type the patient's message here..."></textarea>
+        <div class="card-header"><span>Patient message</span><span style="font-size:11px;color:var(--text3);">Paste from Epic In Basket — PHI will be auto-scrubbed</span></div>
+        <textarea id="msgInput" placeholder="Paste or type the patient's message here. Do not include patient name, MRN, or date of birth..."></textarea>
+        <div id="phiWarning" class="hidden" style="margin-top:8px;"></div>
         <div class="input-footer">
           <span class="char-count" id="charCount">0 characters</span>
           <div class="btn-row">
@@ -232,13 +261,14 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
           </div>
         </div>
       </div>
+
       <div>
         <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:7px;">Quick examples</div>
         <div class="chips">
           <button class="chip" onclick="loadEx('My knee has been swollen and painful for 3 days and I can barely walk.')">Swollen knee</button>
           <button class="chip" onclick="loadEx('I need a refill on my lisinopril 10mg. I have been stable on it for 2 years.')">Routine refill</button>
           <button class="chip" onclick="loadEx('I have been feeling very depressed and having thoughts of hurting myself.')">Mental health</button>
-          <button class="chip" onclick="loadEx('Can you send my immunization records to my son\'s school? Fax: 612-555-0192.')">Records request</button>
+          <button class="chip" onclick="loadEx('Can you send my immunization records to my son\'s school?')">Records request</button>
           <button class="chip" onclick="loadEx('I started my new BP medication yesterday and now I have a bad rash on my chest.')">Med reaction</button>
           <button class="chip" onclick="loadEx('I don\'t see any results for my thyroid. Was this missed?')">Missing results</button>
         </div>
@@ -251,6 +281,7 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
     </div>
   </main>
 </div>
+
 <script>
 var msgInput = document.getElementById('msgInput');
 var charCount = document.getElementById('charCount');
@@ -259,10 +290,51 @@ var output = document.getElementById('output');
 var totalAnalyzed = 0, totalApproved = 0, totalFeedback = 0;
 var sessionQueue = [], currentResult = null, selectedRating = null;
 
-msgInput.addEventListener('input', function() { charCount.textContent = msgInput.value.length + ' characters'; });
+// PHI patterns for client-side detection warning
+var PHI_PATTERNS = [
+  { pattern: /\b(Mr\.?|Mrs\.?|Ms\.?|Miss|Dr\.?)\s+[A-Z][a-z]+/g, label: 'patient name' },
+  { pattern: /\b\d{3}[-.\s]?\d{2}[-.\s]?\d{4}\b/g, label: 'SSN' },
+  { pattern: /\b(\+?1[-.\s]?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}\b/g, label: 'phone number' },
+  { pattern: /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/g, label: 'email address' },
+  { pattern: /\b(0?[1-9]|1[0-2])[\/\-](0?[1-9]|[12]\d|3[01])[\/\-](19|20)\d{2}\b/g, label: 'date of birth' },
+  { pattern: /(MRN|patient\s*id|chart\s*#)/gi, label: 'patient ID or MRN' }
+];
+
+function detectPHIClient(text) {
+  var found = [];
+  for (var i = 0; i < PHI_PATTERNS.length; i++) {
+    PHI_PATTERNS[i].pattern.lastIndex = 0;
+    if (PHI_PATTERNS[i].pattern.test(text)) {
+      found.push(PHI_PATTERNS[i].label);
+    }
+  }
+  return found;
+}
+
+msgInput.addEventListener('input', function() {
+  charCount.textContent = msgInput.value.length + ' characters';
+  var phi = detectPHIClient(msgInput.value);
+  var warn = document.getElementById('phiWarning');
+  if (phi.length > 0) {
+    warn.className = 'phi-warning';
+    warn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg><div class="phi-warning-text"><strong>Possible PHI detected:</strong> ' + phi.join(', ') + '. This will be automatically scrubbed before sending to the AI, but please remove it from the message if possible.</div>';
+  } else {
+    warn.className = 'hidden';
+    warn.innerHTML = '';
+  }
+});
+
+function dismissBanner() {
+  document.getElementById('hipaaBanner').style.display = 'none';
+  try { sessionStorage.setItem('hipaaDismissed', '1'); } catch(e) {}
+}
+
+window.addEventListener('load', function() {
+  try { if (sessionStorage.getItem('hipaaDismissed')) document.getElementById('hipaaBanner').style.display = 'none'; } catch(e) {}
+});
 
 function loadEx(t) { msgInput.value = t; charCount.textContent = t.length + ' characters'; msgInput.focus(); }
-function clearAll() { msgInput.value = ''; charCount.textContent = '0 characters'; output.innerHTML = ''; currentResult = null; }
+function clearAll() { msgInput.value = ''; charCount.textContent = '0 characters'; output.innerHTML = ''; currentResult = null; document.getElementById('phiWarning').className = 'hidden'; }
 
 function showPage(name, btn) {
   document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
@@ -303,7 +375,7 @@ function analyze() {
   analyzeBtn.disabled = true;
   currentResult = null;
   selectedRating = null;
-  output.innerHTML = '<div class="spinner-card"><div class="spinner-row"><div class="spinner"></div><span style="font-size:14px;color:var(--text2);">Agent analyzing...</span></div><div class="steps"><div class="step"><div class="sdot done"></div>Reading message</div><div class="step"><div class="sdot active"></div>Classifying and routing</div><div class="step"><div class="sdot"></div>Assigning to staff role</div><div class="step"><div class="sdot"></div>Drafting patient reply</div></div></div>';
+  output.innerHTML = '<div class="spinner-card"><div class="spinner-row"><div class="spinner"></div><span style="font-size:14px;color:var(--text2);">Agent analyzing...</span></div><div class="steps"><div class="step"><div class="sdot done"></div>Reading message</div><div class="step"><div class="sdot done"></div>Scrubbing PHI</div><div class="step"><div class="sdot active"></div>Classifying and routing</div><div class="step"><div class="sdot"></div>Assigning to staff role</div><div class="step"><div class="sdot"></div>Drafting patient reply</div></div></div>';
   fetch('/api/triage', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ message: message }) })
     .then(function(resp) { return resp.json().then(function(r) { return { ok: resp.ok, data: r }; }); })
     .then(function(res) {
@@ -334,6 +406,7 @@ function renderResult(r, message) {
     tipsHtml = '<div class="rs full"><div class="sl">Epic workflow reminders</div><div class="tips-list">' + tipItems + '</div></div>';
   }
   var confNote = r.confidence === 'Low' ? '<div class="rs full"><div class="sl">Confidence note</div><div class="st" style="color:var(--amber-text);">' + r.confidence_reason + '</div></div>' : '';
+  var phiNote = r.phiScrubbed ? '<div class="rs full"><div class="phi-scrubbed"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>PHI detected and scrubbed before sending to AI: ' + (r.phiDetected ? r.phiDetected.join(', ') : 'identifying information') + '</div></div>' : '';
 
   output.innerHTML =
     '<div class="result-card">' +
@@ -344,6 +417,7 @@ function renderResult(r, message) {
         '<span class="confidence-badge ' + getCB(r.confidence) + '">' + r.confidence + ' confidence</span>' +
       '</div>' +
       '<div class="result-body">' +
+        phiNote +
         '<div class="rs full"><div class="sl">Reasoning</div><div class="st">' + r.reasoning + '</div></div>' +
         '<div class="divider"></div>' +
         '<div class="rs"><div class="sl">Assigned to</div><div class="assign-box"><div class="assign-role">' + r.assigned_role + '</div><div class="assign-reason">' + r.assignment_reason + '</div></div></div>' +
@@ -389,8 +463,8 @@ function renderResult(r, message) {
               '</div>' +
             '</div>' +
           '</div>' +
-          '<div class="fb-row"><div class="fb-label">Additional notes (optional)</div>' +
-            '<textarea class="fb-note" id="fbNote" placeholder="Describe what was wrong or how it could be improved..."></textarea>' +
+          '<div class="fb-row"><div class="fb-label">Additional notes (optional — do not include patient details)</div>' +
+            '<textarea class="fb-note" id="fbNote" placeholder="Describe what was wrong or how it could be improved. Do not include patient names or identifiers..."></textarea>' +
           '</div>' +
           '<button class="btn-fb-submit" id="fbSubmitBtn" onclick="submitFeedback()">Submit feedback</button>' +
           '<div id="fbSent" class="hidden fb-sent"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Feedback submitted — thank you!</div>' +
@@ -424,10 +498,8 @@ function submitFeedback() {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
     body: JSON.stringify({
-      originalMessage: currentResult.originalMessage,
       aiRouting: currentResult.routing,
       aiRole: currentResult.assigned_role,
-      aiReply: (document.getElementById('draftText') || {}).value || '',
       correctedRouting: (document.getElementById('corrRouting') || {}).value || null,
       correctedRole: (document.getElementById('corrRole') || {}).value || null,
       feedbackNote: (document.getElementById('fbNote') || {}).value || '',
@@ -532,7 +604,7 @@ function renderAnalytics(data, el) {
           '</div>') +
       '</div>' +
       (corrEntries.length > 0 ? '<div class="metric-card full"><div class="metric-label" style="margin-bottom:12px;">Common routing corrections</div><div class="bar-chart">' + corrEntries.map(function(e) { return '<div class="bar-row"><div class="bar-label">' + e[0] + '</div><div class="bar-track"><div class="bar-fill amber" style="width:' + Math.round((parseInt(e[1]) / parseInt(corrEntries[0][1])) * 100) + '%"></div></div><div class="bar-count">' + e[1] + '</div></div>'; }).join('') + '</div></div>' : '') +
-      (rf.length > 0 ? '<div class="metric-card full"><div class="metric-label" style="margin-bottom:12px;">Recent feedback</div><table class="fb-table"><thead><tr><th>Message</th><th>AI routing</th><th>Rating</th><th>Notes</th></tr></thead><tbody>' + rf.map(function(f) { return '<tr><td style="max-width:180px;">' + (f.originalMessage ? f.originalMessage.substring(0, 55) + '...' : '—') + '</td><td><span class="rbadge ' + getBadge(f.aiRouting) + '" style="font-size:11px;">' + (f.aiRouting || '—') + '</span></td><td><span class="rp rp-' + f.rating + '">' + (f.rating === 'accurate' ? 'Accurate' : f.rating === 'minor_fix' ? 'Minor fix' : 'Incorrect') + '</span></td><td style="font-size:12px;">' + (f.feedbackNote || '—') + '</td></tr>'; }).join('') + '</tbody></table></div>' : '') +
+      (rf.length > 0 ? '<div class="metric-card full"><div class="metric-label" style="margin-bottom:12px;">Recent feedback</div><table class="fb-table"><thead><tr><th>AI routing</th><th>Rating</th><th>Notes</th></tr></thead><tbody>' + rf.map(function(f) { return '<tr><td><span class="rbadge ' + getBadge(f.aiRouting) + '" style="font-size:11px;">' + (f.aiRouting || '—') + '</span></td><td><span class="rp rp-' + f.rating + '">' + (f.rating === 'accurate' ? 'Accurate' : f.rating === 'minor_fix' ? 'Minor fix' : 'Incorrect') + '</span></td><td style="font-size:12px;">' + (f.feedbackNote || '—') + '</td></tr>'; }).join('') + '</tbody></table></div>' : '') +
     '</div>';
 }
 </script>
