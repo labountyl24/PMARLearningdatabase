@@ -3,6 +3,9 @@
   "rewrites": [
     { "source": "/api/triage", "destination": "/api/triage.js" },
     { "source": "/api/analytics", "destination": "/api/analytics.js" },
+    { "source": "/api/feedback", "destination": "/api/feedback.js" },
+    { "source": "/api/templates", "destination": "/api/templates.js" },
+    { "source": "/api/training", "destination": "/api/training.js" },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
