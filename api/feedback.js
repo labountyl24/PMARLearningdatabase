@@ -10,27 +10,28 @@ module.exports = async function handler(req, res) {
   const { originalMessage, aiRouting, aiRole, aiReply, correctedRouting, correctedRole, feedbackNote, rating } = req.body;
   if (!originalMessage) return res.status(400).json({ error: 'No message provided.' });
 
-  if (!process.env.KV_REST_API_URL || !process.env.KV_REST_API_TOKEN) {
-    return res.status(200).json({ ok: true, note: 'KV not configured, feedback not stored.' });
+  if (!process.env.UPSTASH_REDIS_REST_URL || !process.env.UPSTASH_REDIS_REST_TOKEN) {
+    return res.status(200).json({ ok: true, note: 'Redis not configured, feedback not stored.' });
   }
 
   try {
-const kv = new Redis({
-  url: process.env.UPSTASH_REDIS_REST_URL,
-  token: process.env.UPSTASH_REDIS_REST_TOKEN,
-});
+    const kv = new Redis({
+      url: process.env.UPSTASH_REDIS_REST_URL,
+      token: process.env.UPSTASH_REDIS_REST_TOKEN,
+    });
 
-    const id = `feedback:${Date.now()}`;
+    const id = 'feedback:' + Date.now();
     const entry = {
-      id,
+      id: id,
       timestamp: new Date().toISOString(),
       originalMessage: originalMessage.substring(0, 300),
-      aiRouting, aiRole,
+      aiRouting: aiRouting,
+      aiRole: aiRole,
       aiReply: aiReply ? aiReply.substring(0, 500) : '',
       correctedRouting: correctedRouting || null,
       correctedRole: correctedRole || null,
       feedbackNote: feedbackNote || '',
-      rating,
+      rating: rating,
     };
 
     await kv.set(id, JSON.stringify(entry));
@@ -40,22 +41,20 @@ const kv = new Redis({
     await kv.hincrby('pmar:feedback_ratings', rating, 1);
 
     if (correctedRouting && correctedRouting !== aiRouting) {
-      const correctionKey = `${aiRouting}->${correctedRouting}`;
+      const correctionKey = aiRouting + '->' + correctedRouting;
       await kv.hincrby('pmar:routing_corrections', correctionKey, 1);
     }
 
-    const [total, ratings, corrections] = await Promise.all([
-      kv.get('pmar:feedback_total'),
-      kv.hgetall('pmar:feedback_ratings'),
-      kv.hgetall('pmar:routing_corrections'),
-    ]);
+    const total = await kv.get('pmar:feedback_total');
+    const ratings = await kv.hgetall('pmar:feedback_ratings');
+    const corrections = await kv.hgetall('pmar:routing_corrections');
 
-    await kv.set('pmar:feedback_summary', {
+    await kv.set('pmar:feedback_summary', JSON.stringify({
       total: parseInt(total) || 0,
       ratings: ratings || {},
       corrections: corrections || {},
       lastUpdated: Date.now(),
-    });
+    }));
 
     return res.status(200).json({ ok: true });
   } catch (err) {
