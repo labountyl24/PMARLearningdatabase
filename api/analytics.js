@@ -1,4 +1,4 @@
-const { createClient } = require('@vercel/kv');
+const { Redis } = require('@upstash/redis');
 
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -12,10 +12,10 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    const kv = createClient({
-      url: process.env.KV_REST_API_URL,
-      token: process.env.KV_REST_API_TOKEN,
-    });
+const kv = new Redis({
+  url: process.env.UPSTASH_REDIS_REST_URL,
+  token: process.env.UPSTASH_REDIS_REST_TOKEN,
+});
 
     const days = [];
     for (let i = 13; i >= 0; i--) {
