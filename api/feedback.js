@@ -7,8 +7,9 @@ module.exports = async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
-  const { originalMessage, aiRouting, aiRole, aiReply, correctedRouting, correctedRole, feedbackNote, rating } = req.body;
-  if (!originalMessage) return res.status(400).json({ error: 'No message provided.' });
+  const { aiRouting, aiRole, correctedRouting, correctedRole, feedbackNote, rating } = req.body;
+
+  // NOTE: originalMessage and aiReply are intentionally NOT stored to avoid PHI retention
 
   if (!process.env.UPSTASH_REDIS_REST_URL || !process.env.UPSTASH_REDIS_REST_TOKEN) {
     return res.status(200).json({ ok: true, note: 'Redis not configured, feedback not stored.' });
@@ -24,10 +25,9 @@ module.exports = async function handler(req, res) {
     const entry = {
       id: id,
       timestamp: new Date().toISOString(),
-      originalMessage: originalMessage.substring(0, 300),
+      // Raw message and reply intentionally omitted - PHI risk
       aiRouting: aiRouting,
       aiRole: aiRole,
-      aiReply: aiReply ? aiReply.substring(0, 500) : '',
       correctedRouting: correctedRouting || null,
       correctedRole: correctedRole || null,
       feedbackNote: feedbackNote || '',
