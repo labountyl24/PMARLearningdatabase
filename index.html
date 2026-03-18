@@ -90,6 +90,17 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 .flag-box { background: var(--amber-light); border-radius: var(--radius-sm); padding: 9px 12px; font-size: 13px; font-weight: 500; color: var(--amber-text); }
 .flag-box.emergency { background: var(--red-light); color: var(--red-text); }
 .divider { border: none; border-top: 1px solid var(--border); grid-column: 1/-1; }
+.qa-box { background: var(--accent-light); border-radius: var(--radius-sm); padding: 12px 14px; border-left: 3px solid var(--accent); }
+.qa-header { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+.qa-icon { width: 28px; height: 28px; background: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.qa-icon svg { stroke: #fff; fill: none; }
+.qa-label { font-size: 10px; color: var(--accent); text-transform: uppercase; letter-spacing: 0.07em; }
+.qa-name { font-size: 14px; font-weight: 500; color: var(--accent-text); }
+.qa-reason { font-size: 13px; color: var(--accent-text); opacity: 0.8; }
+.qa-prebuilt-note { font-size: 11px; color: var(--accent); margin-top: 6px; font-style: italic; }
+.tips-list { display: flex; flex-direction: column; gap: 6px; margin-top: 4px; }
+.tip-item { display: flex; align-items: flex-start; gap: 8px; font-size: 13px; color: var(--text2); line-height: 1.5; }
+.tip-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--amber); flex-shrink: 0; margin-top: 6px; }
 .approval-section { border-top: 1px solid var(--border); padding: 16px; background: var(--bg); }
 .approval-label { font-size: 12px; font-weight: 500; color: var(--text2); margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
 .approval-label::before { content:''; display:block; width:6px; height:6px; border-radius:50%; background:var(--amber); }
@@ -104,8 +115,6 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 .approved-banner svg { width: 16px; height: 16px; fill: none; stroke: var(--green); stroke-width: 2.5; stroke-linecap: round; flex-shrink: 0; }
 .approved-text { font-size: 13px; color: var(--green-text); flex: 1; }
 .recopy-btn { background: transparent; border: 1px solid #b0dfc0; border-radius: var(--radius-sm); padding: 4px 10px; font-size: 12px; font-family: 'DM Sans', sans-serif; color: var(--green-text); cursor: pointer; }
-
-/* Feedback panel */
 .feedback-panel { border-top: 1px solid var(--border); padding: 14px 16px; }
 .feedback-toggle { display: flex; align-items: center; gap: 7px; font-size: 13px; color: var(--text2); cursor: pointer; background: none; border: none; font-family: 'DM Sans', sans-serif; padding: 0; width: 100%; }
 .feedback-toggle:hover { color: var(--text); }
@@ -132,8 +141,6 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 .btn-fb-submit:disabled { opacity: 0.4; cursor: not-allowed; }
 .fb-sent { font-size: 13px; color: var(--green-text); display: flex; align-items: center; gap: 6px; }
 .fb-sent svg { width: 14px; height: 14px; fill: none; stroke: var(--green); stroke-width: 2.5; stroke-linecap: round; }
-
-/* Analytics */
 .analytics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
 .analytics-grid .full { grid-column: 1/-1; }
 .metric-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; }
@@ -169,18 +176,6 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 .error-card { background: var(--red-light); border: 1px solid #f0b0ac; border-radius: var(--radius); padding: 12px 16px; font-size: 14px; color: var(--red-text); line-height: 1.6; }
 .hidden { display: none; }
 @media (max-width: 700px) { .shell { grid-template-columns: 1fr; } .sidebar { display: none; } .result-body,.correction-grid { grid-template-columns: 1fr; } .analytics-grid { grid-template-columns: 1fr; } .routing-grid { grid-template-columns: repeat(2,1fr); } }
-
-.qa-box { background: var(--accent-light); border-radius: var(--radius-sm); padding: 12px 14px; border-left: 3px solid var(--accent); }
-.qa-header { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
-.qa-icon { width: 28px; height: 28px; background: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.qa-icon svg { stroke: #fff; }
-.qa-label { font-size: 10px; color: var(--accent); text-transform: uppercase; letter-spacing: 0.07em; }
-.qa-name { font-size: 14px; font-weight: 500; color: var(--accent-text); }
-.qa-reason { font-size: 13px; color: var(--accent-text); opacity: 0.8; }
-.qa-prebuilt-note { font-size: 11px; color: var(--accent); margin-top: 6px; font-style: italic; }
-.tips-list { display: flex; flex-direction: column; gap: 6px; margin-top: 4px; }
-.tip-item { display: flex; align-items: flex-start; gap: 8px; font-size: 13px; color: var(--text2); line-height: 1.5; }
-.tip-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--amber); flex-shrink: 0; margin-top: 6px; }
 </style>
 </head>
 <body>
@@ -256,176 +251,289 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
     </div>
   </main>
 </div>
-
 <script>
-const msgInput = document.getElementById('msgInput');
-const charCount = document.getElementById('charCount');
-const analyzeBtn = document.getElementById('analyzeBtn');
-const output = document.getElementById('output');
-let totalAnalyzed=0, totalApproved=0, totalFeedback=0, sessionQueue=[], currentResult=null, selectedRating=null;
+var msgInput = document.getElementById('msgInput');
+var charCount = document.getElementById('charCount');
+var analyzeBtn = document.getElementById('analyzeBtn');
+var output = document.getElementById('output');
+var totalAnalyzed = 0, totalApproved = 0, totalFeedback = 0;
+var sessionQueue = [], currentResult = null, selectedRating = null;
 
-msgInput.addEventListener('input', ()=>{ charCount.textContent=msgInput.value.length+' characters'; });
-function loadEx(t){ msgInput.value=t; charCount.textContent=t.length+' characters'; msgInput.focus(); }
-function clearAll(){ msgInput.value=''; charCount.textContent='0 characters'; output.innerHTML=''; currentResult=null; }
+msgInput.addEventListener('input', function() { charCount.textContent = msgInput.value.length + ' characters'; });
 
-function showPage(name, btn){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
-  document.getElementById('page-'+name).classList.add('active');
+function loadEx(t) { msgInput.value = t; charCount.textContent = t.length + ' characters'; msgInput.focus(); }
+function clearAll() { msgInput.value = ''; charCount.textContent = '0 characters'; output.innerHTML = ''; currentResult = null; }
+
+function showPage(name, btn) {
+  document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
+  document.querySelectorAll('.nav-btn').forEach(function(b) { b.classList.remove('active'); });
+  document.getElementById('page-' + name).classList.add('active');
   btn.classList.add('active');
-  const t={triage:['Message triage','Review, edit, and approve AI-drafted responses'],analytics:['Analytics & learning','Patterns and feedback from your clinic\'s messages']};
-  document.getElementById('pageTitle').textContent=t[name][0];
-  document.getElementById('pageSub').textContent=t[name][1];
-  if(name==='analytics') loadAnalytics();
+  var titles = { triage: ['Message triage', 'Review, edit, and approve AI-drafted responses'], analytics: ['Analytics & learning', "Patterns and feedback from your clinic's messages"] };
+  document.getElementById('pageTitle').textContent = titles[name][0];
+  document.getElementById('pageSub').textContent = titles[name][1];
+  if (name === 'analytics') loadAnalytics();
 }
 
-const getBadge=r=>r==='PMAR'?'rb-pmar':r==='E-Visit'?'rb-evisit':r==='Urgent'?'rb-urgent':'rb-unclear';
-const getLabel=r=>r==='PMAR'?'Appropriate PMAR':r==='E-Visit'?'Should be E-Visit':r==='Urgent'?'Urgent — escalate':'Needs clarification';
-const getPB=p=>p==='Urgent'?'pb-urgent':p==='Same Day'?'pb-same-day':'pb-routine';
-const getCB=c=>c==='High'?'cb-high':c==='Medium'?'cb-medium':'cb-low';
-const getQD=p=>p==='Urgent'?'urgent':p==='Same Day'?'same-day':'routine';
-const getQB=r=>r==='PMAR'?'qb-pmar':r==='E-Visit'?'qb-evisit':r==='Urgent'?'qb-urgent':'qb-unclear';
+function getBadge(r) { return r==='PMAR'?'rb-pmar':r==='E-Visit'?'rb-evisit':r==='Urgent'?'rb-urgent':'rb-unclear'; }
+function getLabel(r) { return r==='PMAR'?'Appropriate PMAR':r==='E-Visit'?'Should be E-Visit':r==='Urgent'?'Urgent — escalate':'Needs clarification'; }
+function getPB(p) { return p==='Urgent'?'pb-urgent':p==='Same Day'?'pb-same-day':'pb-routine'; }
+function getCB(c) { return c==='High'?'cb-high':c==='Medium'?'cb-medium':'cb-low'; }
+function getQD(p) { return p==='Urgent'?'urgent':p==='Same Day'?'same-day':'routine'; }
+function getQB(r) { return r==='PMAR'?'qb-pmar':r==='E-Visit'?'qb-evisit':r==='Urgent'?'qb-urgent':'qb-unclear'; }
 
-async function analyze(){
-  const message=msgInput.value.trim();
-  if(!message){ alert('Please enter a patient message.'); return; }
-  analyzeBtn.disabled=true; currentResult=null; selectedRating=null;
-  output.innerHTML=`<div class="spinner-card"><div class="spinner-row"><div class="spinner"></div><span style="font-size:14px;color:var(--text2);">Agent analyzing...</span></div><div class="steps"><div class="step"><div class="sdot done"></div>Reading message</div><div class="step"><div class="sdot active"></div>Classifying and routing</div><div class="step"><div class="sdot"></div>Assigning to staff role</div><div class="step"><div class="sdot"></div>Drafting patient reply</div></div></div>`;
-  try{
-    const resp=await fetch('/api/triage',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({message})});
-    const r=await resp.json();
-    if(!resp.ok) throw new Error(r.error||'Server error');
-    currentResult={...r,originalMessage:message};
-    renderResult(r,message);
-    totalAnalyzed++; addToQueue(message,r); updateStats();
-  }catch(err){
-    output.innerHTML=`<div class="error-card"><strong>Error:</strong> ${err.message}</div>`;
-  }
-  analyzeBtn.disabled=false;
+function getQALabel(qa) {
+  var m = { 'done_after_reply':'Done message after reply', 'schedule_visit':'Schedule a visit', 'direct_to_evisit':'Direct to e-visit', 'direct_to_both':'Direct to both visit and e-visit', 'asking_clinician':'Asking a clinician' };
+  return m[qa] || qa;
 }
 
-function getQALabel(qa){const map={'done_after_reply':'Done message after reply','schedule_visit':'Schedule a visit','direct_to_evisit':'Direct to e-visit','direct_to_both':'Direct to both visit and e-visit','asking_clinician':'Asking a clinician'};return map[qa]||qa;}
-function getQAMessage(qa){const map={'schedule_visit':"Thanks for reaching out. Based on your message, it sounds like you'll need a clinical evaluation before we can give a recommendation. To make sure you get the best care, please schedule an appointment.",'direct_to_evisit':"Thank you for your message. It sounds like your question needs more time and a clinical evaluation to answer properly. Please start an e-visit so we can get the details we need to help you.",'direct_to_both':"Based on your message, it sounds like you'll need a clinical evaluation before we can give a recommendation. Please schedule an appointment or start an e-visit - whichever works best for you.",'asking_clinician':"Thank you for your question. I have reviewed it and want to consult with the clinician before giving you a recommendation. I'll follow up with you as soon as I have a chance to connect with them. Thanks for your patience."};return map[qa]||null;}
-
-function getQALabel(qa){
-  const m={'done_after_reply':'Done message after reply','schedule_visit':'Schedule a visit','direct_to_evisit':'Direct to e-visit','direct_to_both':'Direct to both visit and e-visit','asking_clinician':'Asking a clinician'};
-  return m[qa]||qa;
-}
-function getQAMessage(qa){
-  const m={
-    'schedule_visit':"Thanks for reaching out. Based on your message, it sounds like you'll need a clinical evaluation before we can give a recommendation. To make sure you get the best care, please schedule an appointment.",
-    'direct_to_evisit':"Thank you for your message. It sounds like your question needs more time and a clinical evaluation to answer properly. Please start an e-visit so we can get the details we need to help you.",
-    'direct_to_both':"Based on your message, it sounds like you'll need a clinical evaluation before we can give a recommendation. Please schedule an appointment or start an e-visit - whichever works best for you.",
-    'asking_clinician':"Thank you for your question. I have reviewed it and want to consult with the clinician before giving you a recommendation. I'll follow up with you as soon as I have a chance to connect with them. Thanks for your patience."
+function getQAMessage(qa) {
+  var m = {
+    'schedule_visit': "Thanks for reaching out. Based on your message, it sounds like you'll need a clinical evaluation before we can give a recommendation. To make sure you get the best care, please schedule an appointment.",
+    'direct_to_evisit': "Thank you for your message. It sounds like your question needs more time and a clinical evaluation to answer properly. Please start an e-visit so we can get the details we need to help you.",
+    'direct_to_both': "Based on your message, it sounds like you'll need a clinical evaluation before we can give a recommendation. Please schedule an appointment or start an e-visit - whichever works best for you.",
+    'asking_clinician': "Thank you for your question. I have reviewed it and want to consult with the clinician before giving you a recommendation. I'll follow up with you as soon as I have a chance to connect with them. Thanks for your patience."
   };
-  return m[qa]||null;
+  return m[qa] || null;
 }
 
-function renderResult(r,message){
-  const flagHtml=r.flag&&r.flag!=='null'?`<div class="rs full"><div class="flag-box ${r.flag==='emergency'?'emergency':''}">${r.flag==='billing_opportunity'?'Billing opportunity — may qualify as a billable E-Visit':r.flag==='emergency'?'Emergency — escalate immediately':'Clinical review needed before responding'}</div></div>`:'';
-  const qaMsg=getQAMessage(r.quickaction);
-  const draftText=qaMsg||r.draft_reply||'';
-  const qaIsPrebuilt=!!qaMsg;
-  const approvalLbl=qaIsPrebuilt?'Pre-built QuickAction message — edit if needed':'Draft reply — review and edit before approving';
-  const qaHtml=`<div class="qa-box"><div class="qa-header"><div class="qa-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div><div><div class="qa-label">Epic QuickAction</div><div class="qa-name">${getQALabel(r.quickaction)}</div></div></div><div class="qa-reason">${r.quickaction_reason||''}</div>${qaIsPrebuilt?'<div class="qa-prebuilt-note">Pre-built message shown below — edit if needed</div>':''}</div>`;
-  const tipsHtml=(r.staff_tips&&r.staff_tips.length>0)?`<div class="rs full"><div class="sl">Epic workflow reminders</div><div class="tips-list">${r.staff_tips.map(t=>`<div class="tip-item"><div class="tip-dot"></div><span>${t}</span></div>`).join('')}</div></div>`:'';
-  output.innerHTML=`
-    <div class="result-card">
-      <div class="result-header">
-        <span class="rbadge ${getBadge(r.routing)}">${getLabel(r.routing)}</span>
-        <span class="pbadge ${getPB(r.priority)}">${r.priority}</span>
-        <span style="font-size:13px;color:var(--text2);">${r.message_type}</span>
-        <span class="confidence-badge ${getCB(r.confidence)}" title="${r.confidence_reason||''}">${r.confidence} confidence</span>
-      </div>
-      <div class="result-body">
-        <div class="rs full"><div class="sl">Reasoning</div><div class="st">${r.reasoning}</div></div>
-        <div class="divider"></div>
-        <div class="rs"><div class="sl">Assigned to</div><div class="assign-box"><div class="assign-role">${r.assigned_role}</div><div class="assign-reason">${r.assignment_reason}</div></div></div>
-        <div class="rs"><div class="sl">Suggested action</div><div class="st">${r.suggested_action}</div></div>
-        <div class="rs full">${qaHtml}</div>
-        ${r.confidence==='Low'?`<div class="rs full"><div class="sl">Confidence note</div><div class="st" style="color:var(--amber-text);">${r.confidence_reason}</div></div>`:''}
-        ${flagHtml}
-        ${tipsHtml}
-      </div>
-      <div class="approval-section">
-        <div class="approval-label">${approvalLbl}</div>
-        <textarea class="draft-ta" id="draftText">${draftText}</textarea>
-        <div class="approval-actions">
-          <button class="btn-approve" id="approveBtn" onclick="approve()">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
-            Approve &amp; copy
-          </button>
-          <button class="btn-discard" onclick="clearAll()">Discard</button>
-          <span style="font-size:12px;color:var(--text3);margin-left:auto;">Edit above before approving</span>
-        </div>
-        <div id="approvedBanner" class="hidden"></div>
-      </div>
-function approve(){
-  const text=document.getElementById('draftText').value;
-  navigator.clipboard.writeText(text).then(()=>{
-    totalApproved++; updateStats();
-    document.getElementById('approveBtn').disabled=true;
-    const b=document.getElementById('approvedBanner');
-    b.innerHTML=`<div class="approved-banner"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span class="approved-text">Copied — paste into Epic In Basket to send</span><button class="recopy-btn" onclick="navigator.clipboard.writeText(document.getElementById('draftText').value)">Copy again</button></div>`;
+function analyze() {
+  var message = msgInput.value.trim();
+  if (!message) { alert('Please enter a patient message.'); return; }
+  analyzeBtn.disabled = true;
+  currentResult = null;
+  selectedRating = null;
+  output.innerHTML = '<div class="spinner-card"><div class="spinner-row"><div class="spinner"></div><span style="font-size:14px;color:var(--text2);">Agent analyzing...</span></div><div class="steps"><div class="step"><div class="sdot done"></div>Reading message</div><div class="step"><div class="sdot active"></div>Classifying and routing</div><div class="step"><div class="sdot"></div>Assigning to staff role</div><div class="step"><div class="sdot"></div>Drafting patient reply</div></div></div>';
+  fetch('/api/triage', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ message: message }) })
+    .then(function(resp) { return resp.json().then(function(r) { return { ok: resp.ok, data: r }; }); })
+    .then(function(res) {
+      if (!res.ok) throw new Error(res.data.error || 'Server error');
+      currentResult = Object.assign({}, res.data, { originalMessage: message });
+      renderResult(res.data, message);
+      totalAnalyzed++;
+      addToQueue(message, res.data);
+      updateStats();
+      analyzeBtn.disabled = false;
+    })
+    .catch(function(err) {
+      output.innerHTML = '<div class="error-card"><strong>Error:</strong> ' + err.message + '</div>';
+      analyzeBtn.disabled = false;
+    });
+}
+
+function renderResult(r, message) {
+  var flagHtml = r.flag && r.flag !== 'null' ? '<div class="rs full"><div class="flag-box' + (r.flag === 'emergency' ? ' emergency' : '') + '">' + (r.flag === 'billing_opportunity' ? 'Billing opportunity — may qualify as a billable E-Visit' : r.flag === 'emergency' ? 'Emergency — escalate immediately' : 'Clinical review needed before responding') + '</div></div>' : '';
+  var qaMsg = getQAMessage(r.quickaction);
+  var draftText = qaMsg || r.draft_reply || '';
+  var qaIsPrebuilt = !!qaMsg;
+  var approvalLbl = qaIsPrebuilt ? 'Pre-built QuickAction message — edit if needed' : 'Draft reply — review and edit before approving';
+  var qaHtml = '<div class="qa-box"><div class="qa-header"><div class="qa-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div><div><div class="qa-label">Epic QuickAction</div><div class="qa-name">' + getQALabel(r.quickaction) + '</div></div></div><div class="qa-reason">' + (r.quickaction_reason || '') + '</div>' + (qaIsPrebuilt ? '<div class="qa-prebuilt-note">Pre-built message shown below — edit if needed</div>' : '') + '</div>';
+  var tipsHtml = '';
+  if (r.staff_tips && r.staff_tips.length > 0) {
+    var tipItems = r.staff_tips.map(function(t) { return '<div class="tip-item"><div class="tip-dot"></div><span>' + t + '</span></div>'; }).join('');
+    tipsHtml = '<div class="rs full"><div class="sl">Epic workflow reminders</div><div class="tips-list">' + tipItems + '</div></div>';
+  }
+  var confNote = r.confidence === 'Low' ? '<div class="rs full"><div class="sl">Confidence note</div><div class="st" style="color:var(--amber-text);">' + r.confidence_reason + '</div></div>' : '';
+
+  output.innerHTML =
+    '<div class="result-card">' +
+      '<div class="result-header">' +
+        '<span class="rbadge ' + getBadge(r.routing) + '">' + getLabel(r.routing) + '</span>' +
+        '<span class="pbadge ' + getPB(r.priority) + '">' + r.priority + '</span>' +
+        '<span style="font-size:13px;color:var(--text2);">' + r.message_type + '</span>' +
+        '<span class="confidence-badge ' + getCB(r.confidence) + '">' + r.confidence + ' confidence</span>' +
+      '</div>' +
+      '<div class="result-body">' +
+        '<div class="rs full"><div class="sl">Reasoning</div><div class="st">' + r.reasoning + '</div></div>' +
+        '<div class="divider"></div>' +
+        '<div class="rs"><div class="sl">Assigned to</div><div class="assign-box"><div class="assign-role">' + r.assigned_role + '</div><div class="assign-reason">' + r.assignment_reason + '</div></div></div>' +
+        '<div class="rs"><div class="sl">Suggested action</div><div class="st">' + r.suggested_action + '</div></div>' +
+        '<div class="rs full">' + qaHtml + '</div>' +
+        confNote + flagHtml + tipsHtml +
+      '</div>' +
+      '<div class="approval-section">' +
+        '<div class="approval-label">' + approvalLbl + '</div>' +
+        '<textarea class="draft-ta" id="draftText">' + draftText + '</textarea>' +
+        '<div class="approval-actions">' +
+          '<button class="btn-approve" id="approveBtn" onclick="approve()">' +
+            '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>' +
+            'Approve &amp; copy' +
+          '</button>' +
+          '<button class="btn-discard" onclick="clearAll()">Discard</button>' +
+          '<span style="font-size:12px;color:var(--text3);margin-left:auto;">Edit above before approving</span>' +
+        '</div>' +
+        '<div id="approvedBanner" class="hidden"></div>' +
+      '</div>' +
+      '<div class="feedback-panel">' +
+        '<button class="feedback-toggle" id="fbToggle" onclick="toggleFb()">' +
+          '<svg class="feedback-icon" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>' +
+          'Was this response accurate? Leave feedback' +
+          '<svg class="toggle-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>' +
+        '</button>' +
+        '<div class="feedback-body hidden" id="fbBody">' +
+          '<div class="fb-row"><div class="fb-label">How accurate was the AI response?</div>' +
+            '<div class="rating-btns">' +
+              '<button class="rating-btn" onclick="setRating(\'accurate\',this)">Accurate</button>' +
+              '<button class="rating-btn" onclick="setRating(\'minor_fix\',this)">Needed minor fix</button>' +
+              '<button class="rating-btn" onclick="setRating(\'wrong\',this)">Incorrect</button>' +
+            '</div>' +
+          '</div>' +
+          '<div class="fb-row hidden" id="correctionRow">' +
+            '<div class="fb-label">What should it have been?</div>' +
+            '<div class="correction-grid">' +
+              '<div><div style="font-size:11px;color:var(--text3);margin-bottom:4px;">Correct routing</div>' +
+                '<select class="fb-select" id="corrRouting"><option value="">— same as AI —</option><option>PMAR</option><option>E-Visit</option><option>Urgent</option><option>Unclear</option></select>' +
+              '</div>' +
+              '<div><div style="font-size:11px;color:var(--text3);margin-bottom:4px;">Correct staff role</div>' +
+                '<select class="fb-select" id="corrRole"><option value="">— same as AI —</option><option>Front Desk</option><option>Medical Assistant</option><option>Nurse</option><option>Clinician</option><option>Behavioral Health</option></select>' +
+              '</div>' +
+            '</div>' +
+          '</div>' +
+          '<div class="fb-row"><div class="fb-label">Additional notes (optional)</div>' +
+            '<textarea class="fb-note" id="fbNote" placeholder="Describe what was wrong or how it could be improved..."></textarea>' +
+          '</div>' +
+          '<button class="btn-fb-submit" id="fbSubmitBtn" onclick="submitFeedback()">Submit feedback</button>' +
+          '<div id="fbSent" class="hidden fb-sent"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Feedback submitted — thank you!</div>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+}
+
+function toggleFb() {
+  var body = document.getElementById('fbBody');
+  var toggle = document.getElementById('fbToggle');
+  var isOpen = !body.classList.contains('hidden');
+  body.classList.toggle('hidden', isOpen);
+  toggle.classList.toggle('open', !isOpen);
+}
+
+function setRating(rating, btn) {
+  selectedRating = rating;
+  document.querySelectorAll('.rating-btn').forEach(function(b) { b.className = 'rating-btn'; });
+  btn.className = 'rating-btn sel-' + rating;
+  document.getElementById('correctionRow').classList.toggle('hidden', rating === 'accurate');
+}
+
+function submitFeedback() {
+  if (!selectedRating) { alert('Please select an accuracy rating first.'); return; }
+  if (!currentResult) return;
+  var btn = document.getElementById('fbSubmitBtn');
+  btn.disabled = true;
+  btn.textContent = 'Submitting...';
+  fetch('/api/feedback', {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({
+      originalMessage: currentResult.originalMessage,
+      aiRouting: currentResult.routing,
+      aiRole: currentResult.assigned_role,
+      aiReply: (document.getElementById('draftText') || {}).value || '',
+      correctedRouting: (document.getElementById('corrRouting') || {}).value || null,
+      correctedRole: (document.getElementById('corrRole') || {}).value || null,
+      feedbackNote: (document.getElementById('fbNote') || {}).value || '',
+      rating: selectedRating
+    })
+  }).then(function() {
+    totalFeedback++;
+    updateStats();
+    document.getElementById('fbBody').querySelectorAll('button,select,textarea').forEach(function(el) { el.disabled = true; });
+    document.getElementById('fbSubmitBtn').classList.add('hidden');
+    document.getElementById('fbSent').classList.remove('hidden');
+  }).catch(function() {
+    btn.disabled = false;
+    btn.textContent = 'Submit feedback';
+    alert('Could not submit feedback. Please try again.');
+  });
+}
+
+function approve() {
+  var text = document.getElementById('draftText').value;
+  navigator.clipboard.writeText(text).then(function() {
+    totalApproved++;
+    updateStats();
+    document.getElementById('approveBtn').disabled = true;
+    var b = document.getElementById('approvedBanner');
+    b.innerHTML = '<div class="approved-banner"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span class="approved-text">Copied — paste into Epic In Basket to send</span><button class="recopy-btn" onclick="navigator.clipboard.writeText(document.getElementById(\'draftText\').value)">Copy again</button></div>';
     b.classList.remove('hidden');
   });
 }
 
-function addToQueue(message,r){
-  sessionQueue.unshift({snippet:message.substring(0,28)+(message.length>28?'...':''),routing:r.routing,priority:r.priority});
-  const ql=document.getElementById('queueList');
-  const el=document.createElement('div');
-  el.className='queue-item';
-  el.innerHTML=`<div class="queue-dot ${getQD(r.priority)}"></div><span class="queue-snippet">${sessionQueue[0].snippet}</span><span class="qbadge ${getQB(r.routing)}">${r.routing}</span>`;
-  if(ql.children.length===1&&ql.firstChild.tagName!=='DIV') ql.innerHTML='';
+function addToQueue(message, r) {
+  sessionQueue.unshift({ snippet: message.substring(0, 28) + (message.length > 28 ? '...' : ''), routing: r.routing, priority: r.priority });
+  var ql = document.getElementById('queueList');
+  var el = document.createElement('div');
+  el.className = 'queue-item';
+  el.innerHTML = '<div class="queue-dot ' + getQD(r.priority) + '"></div><span class="queue-snippet">' + sessionQueue[0].snippet + '</span><span class="qbadge ' + getQB(r.routing) + '">' + r.routing + '</span>';
   ql.prepend(el);
-  document.getElementById('learningPill').style.display='flex';
-  document.getElementById('learnCount').textContent=sessionQueue.length;
+  document.getElementById('learningPill').style.display = 'flex';
+  document.getElementById('learnCount').textContent = sessionQueue.length;
 }
 
-function updateStats(){
-  document.getElementById('statsRow').style.display='flex';
-  document.getElementById('statTotal').textContent=totalAnalyzed+' analyzed';
-  document.getElementById('statApproved').textContent=totalApproved+' approved';
-  if(totalFeedback>0){ const fc=document.getElementById('statFeedback'); fc.style.display='block'; fc.textContent=totalFeedback+' feedback'; }
+function updateStats() {
+  document.getElementById('statsRow').style.display = 'flex';
+  document.getElementById('statTotal').textContent = totalAnalyzed + ' analyzed';
+  document.getElementById('statApproved').textContent = totalApproved + ' approved';
+  if (totalFeedback > 0) {
+    var fc = document.getElementById('statFeedback');
+    fc.style.display = 'block';
+    fc.textContent = totalFeedback + ' feedback';
+  }
 }
 
-async function loadAnalytics(){
-  const el=document.getElementById('analyticsContent');
-  el.innerHTML='<div class="no-data">Loading...</div>';
-  try{
-    const resp=await fetch('/api/analytics');
-    const data=await resp.json();
-    if(!data.available){ el.innerHTML=`<div class="no-data">Analytics not available yet — analyze some messages first.</div>`; return; }
-    renderAnalytics(data,el);
-  }catch(e){ el.innerHTML=`<div class="no-data">Could not load analytics.</div>`; }
+function loadAnalytics() {
+  var el = document.getElementById('analyticsContent');
+  el.innerHTML = '<div class="no-data">Loading...</div>';
+  fetch('/api/analytics')
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (!data.available) { el.innerHTML = '<div class="no-data">Analytics not available yet — analyze some messages first.</div>'; return; }
+      renderAnalytics(data, el);
+    })
+    .catch(function() { el.innerHTML = '<div class="no-data">Could not load analytics.</div>'; });
 }
 
-function renderAnalytics(data,el){
-  const p=data.patterns||{}, fb=data.feedbackSummary||{}, rf=data.recentFeedback||[];
-  const total=p.totalMessages||0, topTypes=p.topTypes||[], routing=p.routingCounts||{}, roles=p.roleCounts||{}, trends=p.recentTrends||[], daily=data.dailyData||[];
-  const fbTotal=fb.total||0, fbR=fb.ratings||{}, fbC=fb.corrections||{};
-  const accurate=parseInt(fbR['accurate']||0), minor=parseInt(fbR['minor_fix']||0), wrong=parseInt(fbR['wrong']||0);
-  const accPct=fbTotal>0?Math.round((accurate/fbTotal)*100):null;
-  const maxDay=Math.max(...daily.map(d=>d.count),1);
-  const roleKeys=['Front Desk','Medical Assistant','Nurse','Clinician','Behavioral Health'];
-  const maxType=topTypes.length>0?topTypes[0].count:1;
-  const maxRole=Math.max(...roleKeys.map(k=>parseInt(roles[k]||0)),1);
-  const corrEntries=Object.entries(fbC).sort((a,b)=>b[1]-a[1]).slice(0,5);
+function renderAnalytics(data, el) {
+  var p = data.patterns || {}, fb = data.feedbackSummary || {}, rf = data.recentFeedback || [];
+  var total = p.totalMessages || 0, topTypes = p.topTypes || [], routing = p.routingCounts || {}, roles = p.roleCounts || {}, trends = p.recentTrends || [], daily = data.dailyData || [];
+  var fbTotal = fb.total || 0, fbR = fb.ratings || {}, fbC = fb.corrections || {};
+  var accurate = parseInt(fbR['accurate'] || 0), minor = parseInt(fbR['minor_fix'] || 0), wrong = parseInt(fbR['wrong'] || 0);
+  var accPct = fbTotal > 0 ? Math.round((accurate / fbTotal) * 100) : null;
+  var maxDay = Math.max.apply(null, daily.map(function(d) { return d.count; }).concat([1]));
+  var roleKeys = ['Front Desk', 'Medical Assistant', 'Nurse', 'Clinician', 'Behavioral Health'];
+  var maxType = topTypes.length > 0 ? topTypes[0].count : 1;
+  var maxRole = Math.max.apply(null, roleKeys.map(function(k) { return parseInt(roles[k] || 0); }).concat([1]));
+  var corrEntries = Object.entries(fbC).sort(function(a, b) { return b[1] - a[1]; }).slice(0, 5);
 
-  el.innerHTML=`<div class="analytics-grid">
-    <div class="metric-card"><div class="metric-label">Total messages processed</div><div class="metric-value">${total}</div><div class="metric-sub">Across all sessions</div></div>
-    <div class="metric-card"><div class="metric-label">Unique message types</div><div class="metric-value">${topTypes.length}</div><div class="metric-sub">Distinct categories identified</div></div>
-    <div class="metric-card full"><div class="metric-label" style="margin-bottom:10px;">Volume — last 14 days</div><div class="daily-bars">${daily.map(d=>`<div class="day-bar-wrap"><div class="day-bar" style="height:${Math.max(4,Math.round((d.count/maxDay)*72))}px;" title="${d.day}: ${d.count}"></div><div class="day-label">${d.day.slice(5)}</div></div>`).join('')}</div></div>
-    <div class="metric-card"><div class="metric-label" style="margin-bottom:12px;">Routing breakdown</div><div class="routing-grid">${['PMAR','E-Visit','Urgent','Unclear'].map(k=>`<div class="routing-cell"><div class="routing-cell-value">${routing[k]||0}</div><div class="routing-cell-label">${k}</div></div>`).join('')}</div></div>
-    <div class="metric-card"><div class="metric-label" style="margin-bottom:12px;">Staff assignment breakdown</div><div class="bar-chart">${roleKeys.map(k=>{const c=parseInt(roles[k]||0);return`<div class="bar-row"><div class="bar-label">${k}</div><div class="bar-track"><div class="bar-fill" style="width:${Math.round((c/maxRole)*100)}%"></div></div><div class="bar-count">${c}</div></div>`;}).join('')}</div></div>
-    <div class="metric-card full"><div class="metric-label" style="margin-bottom:12px;">Top message types</div>${topTypes.length===0?'<div style="font-size:13px;color:var(--text3);">No data yet</div>':`<div class="bar-chart">${topTypes.slice(0,8).map(t=>`<div class="bar-row"><div class="bar-label">${t.type}</div><div class="bar-track"><div class="bar-fill" style="width:${Math.round((t.count/maxType)*100)}%"></div></div><div class="bar-count">${t.count}</div></div>`).join('')}</div>`}</div>
-    ${trends.length>0?`<div class="metric-card full"><div class="metric-label" style="margin-bottom:10px;">Recent trends</div><div>${trends.map(t=>`<span class="trend-chip">↑ ${t}</span>`).join('')}</div></div>`:''}
-    <div class="metric-card"><div class="metric-label">Staff feedback received</div><div class="metric-value">${fbTotal}</div><div class="metric-sub">${accPct!==null?accPct+'% rated accurate':'No feedback yet'}</div></div>
-    <div class="metric-card"><div class="metric-label" style="margin-bottom:12px;">Feedback breakdown</div>${fbTotal===0?'<div style="font-size:13px;color:var(--text3);">No feedback submitted yet</div>':`<div class="bar-chart"><div class="bar-row"><div class="bar-label">Accurate</div><div class="bar-track"><div class="bar-fill" style="width:${Math.round((accurate/fbTotal)*100)}%"></div></div><div class="bar-count">${accurate}</div></div><div class="bar-row"><div class="bar-label">Minor fix needed</div><div class="bar-track"><div class="bar-fill amber" style="width:${Math.round((minor/fbTotal)*100)}%"></div></div><div class="bar-count">${minor}</div></div><div class="bar-row"><div class="bar-label">Incorrect</div><div class="bar-track"><div class="bar-fill red" style="width:${Math.round((wrong/fbTotal)*100)}%"></div></div><div class="bar-count">${wrong}</div></div></div>`}</div>
-    ${corrEntries.length>0?`<div class="metric-card full"><div class="metric-label" style="margin-bottom:12px;">Common routing corrections</div><div class="bar-chart">${corrEntries.map(([k,c])=>`<div class="bar-row"><div class="bar-label">${k}</div><div class="bar-track"><div class="bar-fill amber" style="width:${Math.round((parseInt(c)/parseInt(corrEntries[0][1]))*100)}%"></div></div><div class="bar-count">${c}</div></div>`).join('')}</div></div>`:''}
-    ${rf.length>0?`<div class="metric-card full"><div class="metric-label" style="margin-bottom:12px;">Recent feedback</div><table class="fb-table"><thead><tr><th>Message</th><th>AI routing</th><th>Rating</th><th>Notes</th></tr></thead><tbody>${rf.map(f=>`<tr><td style="max-width:180px;">${f.originalMessage?f.originalMessage.substring(0,55)+'...':'—'}</td><td><span class="rbadge ${getBadge(f.aiRouting)}" style="font-size:11px;">${f.aiRouting||'—'}</span></td><td><span class="rp rp-${f.rating}">${f.rating==='accurate'?'Accurate':f.rating==='minor_fix'?'Minor fix':'Incorrect'}</span></td><td style="font-size:12px;">${f.feedbackNote||'—'}</td></tr>`).join('')}</tbody></table></div>`:''}
-  </div>`;
+  el.innerHTML =
+    '<div class="analytics-grid">' +
+      '<div class="metric-card"><div class="metric-label">Total messages processed</div><div class="metric-value">' + total + '</div><div class="metric-sub">Across all sessions</div></div>' +
+      '<div class="metric-card"><div class="metric-label">Unique message types</div><div class="metric-value">' + topTypes.length + '</div><div class="metric-sub">Distinct categories identified</div></div>' +
+      '<div class="metric-card full"><div class="metric-label" style="margin-bottom:10px;">Volume — last 14 days</div><div class="daily-bars">' +
+        daily.map(function(d) { return '<div class="day-bar-wrap"><div class="day-bar" style="height:' + Math.max(4, Math.round((d.count / maxDay) * 72)) + 'px;" title="' + d.day + ': ' + d.count + '"></div><div class="day-label">' + d.day.slice(5) + '</div></div>'; }).join('') +
+      '</div></div>' +
+      '<div class="metric-card"><div class="metric-label" style="margin-bottom:12px;">Routing breakdown</div><div class="routing-grid">' +
+        ['PMAR','E-Visit','Urgent','Unclear'].map(function(k) { return '<div class="routing-cell"><div class="routing-cell-value">' + (routing[k] || 0) + '</div><div class="routing-cell-label">' + k + '</div></div>'; }).join('') +
+      '</div></div>' +
+      '<div class="metric-card"><div class="metric-label" style="margin-bottom:12px;">Staff assignment breakdown</div><div class="bar-chart">' +
+        roleKeys.map(function(k) { var c = parseInt(roles[k] || 0); return '<div class="bar-row"><div class="bar-label">' + k + '</div><div class="bar-track"><div class="bar-fill" style="width:' + Math.round((c / maxRole) * 100) + '%"></div></div><div class="bar-count">' + c + '</div></div>'; }).join('') +
+      '</div></div>' +
+      '<div class="metric-card full"><div class="metric-label" style="margin-bottom:12px;">Top message types</div>' +
+        (topTypes.length === 0 ? '<div style="font-size:13px;color:var(--text3);">No data yet</div>' :
+          '<div class="bar-chart">' + topTypes.slice(0, 8).map(function(t) { return '<div class="bar-row"><div class="bar-label">' + t.type + '</div><div class="bar-track"><div class="bar-fill" style="width:' + Math.round((t.count / maxType) * 100) + '%"></div></div><div class="bar-count">' + t.count + '</div></div>'; }).join('') + '</div>') +
+      '</div>' +
+      (trends.length > 0 ? '<div class="metric-card full"><div class="metric-label" style="margin-bottom:10px;">Recent trends</div><div>' + trends.map(function(t) { return '<span class="trend-chip">↑ ' + t + '</span>'; }).join('') + '</div></div>' : '') +
+      '<div class="metric-card"><div class="metric-label">Staff feedback received</div><div class="metric-value">' + fbTotal + '</div><div class="metric-sub">' + (accPct !== null ? accPct + '% rated accurate' : 'No feedback yet') + '</div></div>' +
+      '<div class="metric-card"><div class="metric-label" style="margin-bottom:12px;">Feedback breakdown</div>' +
+        (fbTotal === 0 ? '<div style="font-size:13px;color:var(--text3);">No feedback submitted yet</div>' :
+          '<div class="bar-chart">' +
+            '<div class="bar-row"><div class="bar-label">Accurate</div><div class="bar-track"><div class="bar-fill" style="width:' + Math.round((accurate / fbTotal) * 100) + '%"></div></div><div class="bar-count">' + accurate + '</div></div>' +
+            '<div class="bar-row"><div class="bar-label">Minor fix needed</div><div class="bar-track"><div class="bar-fill amber" style="width:' + Math.round((minor / fbTotal) * 100) + '%"></div></div><div class="bar-count">' + minor + '</div></div>' +
+            '<div class="bar-row"><div class="bar-label">Incorrect</div><div class="bar-track"><div class="bar-fill red" style="width:' + Math.round((wrong / fbTotal) * 100) + '%"></div></div><div class="bar-count">' + wrong + '</div></div>' +
+          '</div>') +
+      '</div>' +
+      (corrEntries.length > 0 ? '<div class="metric-card full"><div class="metric-label" style="margin-bottom:12px;">Common routing corrections</div><div class="bar-chart">' + corrEntries.map(function(e) { return '<div class="bar-row"><div class="bar-label">' + e[0] + '</div><div class="bar-track"><div class="bar-fill amber" style="width:' + Math.round((parseInt(e[1]) / parseInt(corrEntries[0][1])) * 100) + '%"></div></div><div class="bar-count">' + e[1] + '</div></div>'; }).join('') + '</div></div>' : '') +
+      (rf.length > 0 ? '<div class="metric-card full"><div class="metric-label" style="margin-bottom:12px;">Recent feedback</div><table class="fb-table"><thead><tr><th>Message</th><th>AI routing</th><th>Rating</th><th>Notes</th></tr></thead><tbody>' + rf.map(function(f) { return '<tr><td style="max-width:180px;">' + (f.originalMessage ? f.originalMessage.substring(0, 55) + '...' : '—') + '</td><td><span class="rbadge ' + getBadge(f.aiRouting) + '" style="font-size:11px;">' + (f.aiRouting || '—') + '</span></td><td><span class="rp rp-' + f.rating + '">' + (f.rating === 'accurate' ? 'Accurate' : f.rating === 'minor_fix' ? 'Minor fix' : 'Incorrect') + '</span></td><td style="font-size:12px;">' + (f.feedbackNote || '—') + '</td></tr>'; }).join('') + '</tbody></table></div>' : '') +
+    '</div>';
 }
 </script>
 </body>
