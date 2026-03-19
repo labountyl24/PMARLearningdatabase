@@ -55,7 +55,7 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 .hipaa-banner-text { font-size: 13px; color: #7a5c00; line-height: 1.5; flex: 1; }
 .hipaa-banner-text strong { font-weight: 500; }
 .hipaa-dismiss { background: transparent; border: none; font-size: 18px; color: #b8860b; cursor: pointer; padding: 0; line-height: 1; flex-shrink: 0; }
-.phi-warning { background: var(--red-light); border: 1px solid #f0b0ac; border-radius: var(--radius-sm); padding: 10px 14px; display: flex; align-items: flex-start; gap: 8px; animation: fadeUp 0.2s ease; }
+.phi-warning { background: var(--red-light); border: 1px solid #f0b0ac; border-radius: var(--radius-sm); padding: 10px 14px; display: flex; align-items: flex-start; gap: 8px; }
 .phi-warning svg { width: 15px; height: 15px; fill: none; stroke: var(--red); stroke-width: 2; stroke-linecap: round; flex-shrink: 0; margin-top: 1px; }
 .phi-warning-text { font-size: 13px; color: var(--red-text); line-height: 1.5; }
 .phi-scrubbed { background: var(--green-light); border: 1px solid #b0dfc0; border-radius: var(--radius-sm); padding: 8px 14px; display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--green-text); }
@@ -125,7 +125,7 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 .btn-approve:hover { opacity: 0.88; } .btn-approve:disabled { opacity: 0.5; cursor: not-allowed; }
 .btn-discard { background: transparent; color: var(--red-text); border: 1px solid #f0b0ac; border-radius: var(--radius-sm); padding: 8px 13px; font-size: 13px; font-family: 'DM Sans', sans-serif; cursor: pointer; }
 .btn-discard:hover { background: var(--red-light); }
-.approved-banner { background: var(--green-light); border: 1px solid #b0dfc0; border-radius: var(--radius-sm); padding: 10px 14px; display: flex; align-items: center; gap: 8px; margin-top: 8px; animation: fadeUp 0.2s ease; }
+.approved-banner { background: var(--green-light); border: 1px solid #b0dfc0; border-radius: var(--radius-sm); padding: 10px 14px; display: flex; align-items: center; gap: 8px; margin-top: 8px; }
 .approved-banner svg { width: 16px; height: 16px; fill: none; stroke: var(--green); stroke-width: 2.5; stroke-linecap: round; flex-shrink: 0; }
 .approved-text { font-size: 13px; color: var(--green-text); flex: 1; }
 .recopy-btn { background: transparent; border: 1px solid #b0dfc0; border-radius: var(--radius-sm); padding: 4px 10px; font-size: 12px; font-family: 'DM Sans', sans-serif; color: var(--green-text); cursor: pointer; }
@@ -155,28 +155,25 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 .btn-fb-submit:disabled { opacity: 0.4; cursor: not-allowed; }
 .fb-sent { font-size: 13px; color: var(--green-text); display: flex; align-items: center; gap: 6px; }
 .fb-sent svg { width: 14px; height: 14px; fill: none; stroke: var(--green); stroke-width: 2.5; stroke-linecap: round; }
-
-/* Templates */
 .tpl-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
 .tpl-search { font-size: 13px; font-family: 'DM Sans', sans-serif; padding: 8px 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface); color: var(--text); width: 220px; }
 .tpl-search:focus { outline: none; border-color: var(--accent); }
 .tpl-filter { font-size: 13px; font-family: 'DM Sans', sans-serif; padding: 8px 12px; border: 1px solid var(--border); border-radius: var(--radius-sm); background: var(--surface); color: var(--text); }
 .tpl-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-.tpl-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem; display: flex; flex-direction: column; gap: 8px; transition: border-color 0.15s; }
+.tpl-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem; display: flex; flex-direction: column; gap: 8px; }
 .tpl-card:hover { border-color: var(--border2); }
 .tpl-card-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
 .tpl-title { font-size: 14px; font-weight: 500; color: var(--text); line-height: 1.4; }
 .tpl-category { font-size: 11px; color: var(--text3); margin-top: 2px; }
-.tpl-badges { display: flex; gap: 5px; flex-wrap: wrap; }
 .tpl-body { font-size: 13px; color: var(--text2); line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
 .tpl-actions { display: flex; gap: 6px; margin-top: 4px; }
 .btn-tpl-use { background: var(--accent); color: #fff; border: none; border-radius: var(--radius-sm); padding: 6px 14px; font-size: 12px; font-weight: 500; font-family: 'DM Sans', sans-serif; cursor: pointer; }
 .btn-tpl-use:hover { opacity: 0.88; }
 .btn-tpl-edit { background: transparent; color: var(--text2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 6px 12px; font-size: 12px; font-family: 'DM Sans', sans-serif; cursor: pointer; }
 .btn-tpl-edit:hover { background: var(--surface2); }
-.btn-tpl-del { background: transparent; color: var(--text3); border: none; padding: 6px 8px; font-size: 12px; font-family: 'DM Sans', sans-serif; cursor: pointer; border-radius: var(--radius-sm); }
+.btn-tpl-del { background: transparent; color: var(--text3); border: none; padding: 6px 8px; font-size: 14px; font-family: 'DM Sans', sans-serif; cursor: pointer; border-radius: var(--radius-sm); }
 .btn-tpl-del:hover { color: var(--red-text); background: var(--red-light); }
-.tpl-form { background: var(--surface); border: 1px solid var(--accent); border-radius: var(--radius); padding: 1.25rem; display: flex; flex-direction: column; gap: 12px; animation: fadeUp 0.2s ease; }
+.tpl-form { background: var(--surface); border: 1px solid var(--accent); border-radius: var(--radius); padding: 1.25rem; display: flex; flex-direction: column; gap: 12px; }
 .tpl-form-title { font-size: 14px; font-weight: 500; }
 .form-row { display: flex; flex-direction: column; gap: 5px; }
 .form-label { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.07em; }
@@ -187,8 +184,6 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 .form-textarea:focus { outline: none; border-color: var(--accent); }
 .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 .form-actions { display: flex; gap: 8px; }
-
-/* Training */
 .training-header { background: var(--purple-light); border: 1px solid #d0b8f0; border-radius: var(--radius); padding: 1.25rem; }
 .training-header-title { font-size: 16px; font-weight: 500; color: var(--purple-text); margin-bottom: 4px; }
 .training-header-sub { font-size: 13px; color: var(--purple); line-height: 1.5; }
@@ -208,7 +203,7 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 .answer-row { display: flex; flex-direction: column; gap: 6px; }
 .answer-label { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.07em; }
 .answer-options { display: flex; gap: 6px; flex-wrap: wrap; }
-.answer-btn { font-size: 12px; font-family: 'DM Sans', sans-serif; padding: 6px 13px; border-radius: 20px; border: 1px solid var(--border2); background: transparent; color: var(--text2); cursor: pointer; transition: all 0.1s; }
+.answer-btn { font-size: 12px; font-family: 'DM Sans', sans-serif; padding: 6px 13px; border-radius: 20px; border: 1px solid var(--border2); background: transparent; color: var(--text2); cursor: pointer; }
 .answer-btn:hover { border-color: var(--purple); color: var(--purple-text); }
 .answer-btn.selected { background: var(--purple-light); color: var(--purple-text); border-color: var(--purple); }
 .answer-btn.correct { background: var(--green-light); color: var(--green-text); border-color: #b0dfc0; }
@@ -220,15 +215,29 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 .result-banner.partial { background: var(--amber-light); color: var(--amber-text); }
 .result-banner.wrong { background: var(--red-light); color: var(--red-text); }
 .result-explanation { font-size: 13px; margin-top: 6px; opacity: 0.85; }
-.training-complete { background: var(--purple-light); border: 1px solid #d0b8f0; border-radius: var(--radius); padding: 2rem; text-align: center; animation: fadeUp 0.3s ease; }
+.training-complete { background: var(--purple-light); border: 1px solid #d0b8f0; border-radius: var(--radius); padding: 2rem; text-align: center; }
 .complete-score { font-size: 48px; font-weight: 300; color: var(--purple-text); letter-spacing: -0.02em; }
 .complete-label { font-size: 14px; color: var(--purple); margin-top: 4px; }
 .complete-breakdown { display: flex; justify-content: center; gap: 1.5rem; margin-top: 1.25rem; }
 .complete-stat { text-align: center; }
 .complete-stat-val { font-size: 20px; font-weight: 500; color: var(--purple-text); }
 .complete-stat-lbl { font-size: 11px; color: var(--purple); margin-top: 2px; }
-
-/* Analytics */
+.scen-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem 1.25rem; display: flex; flex-direction: column; gap: 8px; }
+.scen-card-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+.scen-message { font-size: 14px; color: var(--text); line-height: 1.6; flex: 1; }
+.scen-meta { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+.scen-custom-badge { font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 20px; background: var(--purple-light); color: var(--purple-text); }
+.scen-default-badge { font-size: 10px; padding: 2px 8px; border-radius: 20px; background: var(--surface2); color: var(--text3); }
+.scen-actions { display: flex; gap: 6px; flex-shrink: 0; align-items: center; }
+.btn-scen-edit { background: transparent; color: var(--text2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 5px 12px; font-size: 12px; font-family: 'DM Sans', sans-serif; cursor: pointer; }
+.btn-scen-edit:hover { background: var(--surface2); }
+.btn-scen-del { background: transparent; color: var(--text3); border: none; border-radius: var(--radius-sm); padding: 5px 8px; font-size: 16px; font-family: 'DM Sans', sans-serif; cursor: pointer; line-height: 1; }
+.btn-scen-del:hover { color: var(--red-text); background: var(--red-light); }
+.scen-form { background: var(--surface); border: 1px solid var(--accent); border-radius: var(--radius); padding: 1.25rem; display: flex; flex-direction: column; gap: 12px; }
+.scen-form-title { font-size: 14px; font-weight: 500; color: var(--accent-text); }
+.scen-manager-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
+.scen-explanation { font-size: 12px; color: var(--text3); font-style: italic; }
+.hidden-section-title { font-size: 13px; font-weight: 500; color: var(--text2); margin-bottom: 8px; margin-top: 8px; }
 .analytics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
 .analytics-grid .full { grid-column: 1/-1; }
 .metric-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem; }
@@ -240,7 +249,7 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 .bar-label { font-size: 13px; color: var(--text2); width: 160px; flex-shrink: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .bar-track { flex: 1; height: 8px; background: var(--surface2); border-radius: 4px; overflow: hidden; }
 .bar-fill { height: 100%; border-radius: 4px; background: var(--accent); transition: width 0.6s ease; }
-.bar-fill.amber { background: var(--amber); } .bar-fill.red { background: var(--red); } .bar-fill.purple { background: var(--purple); }
+.bar-fill.amber { background: var(--amber); } .bar-fill.red { background: var(--red); }
 .bar-count { font-size: 12px; color: var(--text3); width: 30px; text-align: right; }
 .routing-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; }
 .routing-cell { background: var(--surface2); border-radius: var(--radius-sm); padding: 10px; text-align: center; }
@@ -264,22 +273,6 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 .error-card { background: var(--red-light); border: 1px solid #f0b0ac; border-radius: var(--radius); padding: 12px 16px; font-size: 14px; color: var(--red-text); line-height: 1.6; }
 .hidden { display: none; }
 @media (max-width: 700px) { .shell { grid-template-columns: 1fr; } .sidebar { display: none; } .result-body,.correction-grid,.form-grid,.tpl-grid { grid-template-columns: 1fr; } .analytics-grid { grid-template-columns: 1fr; } .routing-grid { grid-template-columns: repeat(2,1fr); } }
-
-.scen-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem 1.25rem; display: flex; flex-direction: column; gap: 8px; }
-.scen-card-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
-.scen-message { font-size: 14px; color: var(--text); line-height: 1.6; flex: 1; }
-.scen-meta { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
-.scen-custom-badge { font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 20px; background: var(--purple-light); color: var(--purple-text); }
-.scen-default-badge { font-size: 10px; padding: 2px 8px; border-radius: 20px; background: var(--surface2); color: var(--text3); }
-.scen-actions { display: flex; gap: 6px; flex-shrink: 0; }
-.btn-scen-edit { background: transparent; color: var(--text2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 5px 12px; font-size: 12px; font-family: "DM Sans", sans-serif; cursor: pointer; }
-.btn-scen-edit:hover { background: var(--surface2); }
-.btn-scen-del { background: transparent; color: var(--text3); border: none; border-radius: var(--radius-sm); padding: 5px 8px; font-size: 12px; font-family: "DM Sans", sans-serif; cursor: pointer; }
-.btn-scen-del:hover { color: var(--red-text); background: var(--red-light); }
-.scen-form { background: var(--surface); border: 1px solid var(--accent); border-radius: var(--radius); padding: 1.25rem; display: flex; flex-direction: column; gap: 12px; animation: fadeUp 0.2s ease; }
-.scen-form-title { font-size: 14px; font-weight: 500; color: var(--accent-text); }
-.scen-manager-header { display: flex; align-items: center; justify-content: space-between; }
-.scen-explanation { font-size: 12px; color: var(--text3); font-style: italic; margin-top: 2px; }
 </style>
 </head>
 <body>
@@ -317,7 +310,6 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
       <div class="learning-dot"></div>Learning from <span id="learnCount">0</span> messages
     </div>
   </aside>
-
   <main class="main">
     <div class="topbar">
       <div>
@@ -330,17 +322,15 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
         <div class="stat-chip" id="statFeedback" style="display:none;">0 feedback</div>
       </div>
     </div>
-
-    <!-- Triage page -->
     <div class="page active" id="page-triage">
       <div class="hipaa-banner" id="hipaaBanner">
         <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-        <div class="hipaa-banner-text"><strong>Do not enter patient names, MRNs, dates of birth, or other identifying information.</strong> Describe the clinical situation only. PHI is automatically detected and scrubbed, but staff should avoid entering it in the first place.</div>
-        <button class="hipaa-dismiss" onclick="dismissBanner()" title="Dismiss">×</button>
+        <div class="hipaa-banner-text"><strong>Do not enter patient names, MRNs, dates of birth, or other identifying information.</strong> Describe the clinical situation only. PHI is automatically detected and scrubbed.</div>
+        <button class="hipaa-dismiss" onclick="dismissBanner()">x</button>
       </div>
       <div class="card">
-        <div class="card-header"><span>Patient message</span><span style="font-size:11px;color:var(--text3);">Paste from Epic In Basket — PHI will be auto-scrubbed</span></div>
-        <textarea id="msgInput" placeholder="Paste or type the patient's message here. Do not include patient name, MRN, or date of birth..."></textarea>
+        <div class="card-header"><span>Patient message</span><span style="font-size:11px;color:var(--text3);">Paste from Epic In Basket</span></div>
+        <textarea id="msgInput" placeholder="Paste or type the patient message here. Do not include patient name, MRN, or date of birth..."></textarea>
         <div id="phiWarning" class="hidden" style="margin-top:8px;"></div>
         <div class="input-footer">
           <span class="char-count" id="charCount">0 characters</span>
@@ -359,15 +349,13 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
           <button class="chip" onclick="loadEx('My knee has been swollen and painful for 3 days and I can barely walk.')">Swollen knee</button>
           <button class="chip" onclick="loadEx('I need a refill on my lisinopril 10mg. I have been stable on it for 2 years.')">Routine refill</button>
           <button class="chip" onclick="loadEx('I have been feeling very depressed and having thoughts of hurting myself.')">Mental health</button>
-          <button class="chip" onclick="loadEx('Can you send my immunization records to my son\'s school?')">Records request</button>
+          <button class="chip" onclick="loadEx('Can you send my immunization records to my sons school?')">Records request</button>
           <button class="chip" onclick="loadEx('I started my new BP medication yesterday and now I have a bad rash on my chest.')">Med reaction</button>
-          <button class="chip" onclick="loadEx('I don\'t see any results for my thyroid. Was this missed?')">Missing results</button>
+          <button class="chip" onclick="loadEx('I dont see any results for my thyroid. Was this missed?')">Missing results</button>
         </div>
       </div>
       <div id="output"></div>
     </div>
-
-    <!-- Templates page -->
     <div class="page" id="page-templates">
       <div class="tpl-toolbar">
         <div style="display:flex;gap:8px;flex-wrap:wrap;">
@@ -392,34 +380,31 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
       <div id="tplFormContainer" class="hidden"></div>
       <div id="tplGrid" class="tpl-grid"><div class="no-data">Loading templates...</div></div>
     </div>
-
-    <!-- Analytics page -->
     <div class="page" id="page-analytics">
       <div id="analyticsContent"><div class="no-data">Loading analytics...</div></div>
     </div>
-
-    <!-- Training page -->
     <div class="page" id="page-training">
       <div class="training-header">
         <div class="training-header-title">Staff training mode</div>
-        <div class="training-header-sub">Practice triaging patient messages before using the live tool. Read each message, make your routing decisions, then see how you did and why.</div>
+        <div class="training-header-sub">Practice triaging patient messages. Use Manage scenarios to add your own custom scenarios or remove ones that do not apply to your clinic.</div>
         <div class="training-score-bar" id="trainingScoreBar" style="display:none;">
           <div class="training-stat"><div class="training-stat-value" id="trainScoreVal">0/0</div><div class="training-stat-label">Score</div></div>
           <div class="training-stat"><div class="training-stat-value" id="trainPerfectVal">0</div><div class="training-stat-label">Perfect answers</div></div>
           <div class="training-stat"><div class="training-stat-value" id="trainProgressVal">0/10</div><div class="training-stat-label">Progress</div></div>
         </div>
       </div>
-      <div id="trainingContent"><div style="text-align:center;padding:2rem;display:flex;flex-direction:column;align-items:center;gap:12px;">
-        <button class="btn-purple" onclick="startTraining()" style="display:flex;align-items:center;gap:5px;">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-          Start training session
-        </button>
-        <button class="btn-ghost" onclick="showScenarioManager()">Manage scenarios</button>
-      </div></div>
+      <div id="trainingContent">
+        <div style="text-align:center;padding:2rem;display:flex;flex-direction:column;align-items:center;gap:12px;">
+          <button class="btn-purple" onclick="startTraining()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Start training session
+          </button>
+          <button class="btn-ghost" onclick="showScenarioManager()">Manage scenarios</button>
+        </div>
+      </div>
     </div>
   </main>
 </div>
-
 <script>
 var msgInput = document.getElementById('msgInput');
 var charCount = document.getElementById('charCount');
@@ -427,7 +412,7 @@ var analyzeBtn = document.getElementById('analyzeBtn');
 var output = document.getElementById('output');
 var totalAnalyzed = 0, totalApproved = 0, totalFeedback = 0;
 var sessionQueue = [], currentResult = null, selectedRating = null;
-var allTemplates = [];
+var allTemplates = [], allScenarios = [];
 var trainingScenarios = [], trainingIdx = 0, trainingScore = 0, trainingPerfect = 0;
 var trainingAnswers = { routing: null, role: null, quickaction: null };
 var trainingSubmitted = false;
@@ -467,6 +452,7 @@ function dismissBanner() {
   document.getElementById('hipaaBanner').style.display = 'none';
   try { sessionStorage.setItem('hipaaDismissed', '1'); } catch(e) {}
 }
+
 window.addEventListener('load', function() {
   try { if (sessionStorage.getItem('hipaaDismissed')) document.getElementById('hipaaBanner').style.display = 'none'; } catch(e) {}
   loadTemplates();
@@ -483,7 +469,7 @@ function showPage(name, btn) {
   var titles = {
     triage: ['Message triage', 'Review, edit, and approve AI-drafted responses'],
     templates: ['Message templates', 'Pre-approved reply templates organized by message type'],
-    analytics: ['Analytics & learning', "Patterns and feedback from your clinic's messages"],
+    analytics: ['Analytics & learning', 'Patterns and feedback from your clinic messages'],
     training: ['Staff training mode', 'Practice triage decisions with real-world scenarios']
   };
   document.getElementById('pageTitle').textContent = titles[name][0];
@@ -491,17 +477,18 @@ function showPage(name, btn) {
   if (name === 'analytics') loadAnalytics();
 }
 
-function getBadge(r) { return r==='PMAR'?'rb-pmar':r==='E-Visit'?'rb-evisit':r==='Urgent'?'rb-urgent':'rb-unclear'; }
-function getLabel(r) { return r==='PMAR'?'Appropriate PMAR':r==='E-Visit'?'Should be E-Visit':r==='Urgent'?'Urgent — escalate':'Needs clarification'; }
-function getPB(p) { return p==='Urgent'?'pb-urgent':p==='Same Day'?'pb-same-day':'pb-routine'; }
-function getCB(c) { return c==='High'?'cb-high':c==='Medium'?'cb-medium':'cb-low'; }
-function getQD(p) { return p==='Urgent'?'urgent':p==='Same Day'?'same-day':'routine'; }
-function getQB(r) { return r==='PMAR'?'qb-pmar':r==='E-Visit'?'qb-evisit':r==='Urgent'?'qb-urgent':'qb-unclear'; }
+function getBadge(r) { return r === 'PMAR' ? 'rb-pmar' : r === 'E-Visit' ? 'rb-evisit' : r === 'Urgent' ? 'rb-urgent' : 'rb-unclear'; }
+function getLabel(r) { return r === 'PMAR' ? 'Appropriate PMAR' : r === 'E-Visit' ? 'Should be E-Visit' : r === 'Urgent' ? 'Urgent - escalate' : 'Needs clarification'; }
+function getPB(p) { return p === 'Urgent' ? 'pb-urgent' : p === 'Same Day' ? 'pb-same-day' : 'pb-routine'; }
+function getCB(c) { return c === 'High' ? 'cb-high' : c === 'Medium' ? 'cb-medium' : 'cb-low'; }
+function getQD(p) { return p === 'Urgent' ? 'urgent' : p === 'Same Day' ? 'same-day' : 'routine'; }
+function getQB(r) { return r === 'PMAR' ? 'qb-pmar' : r === 'E-Visit' ? 'qb-evisit' : r === 'Urgent' ? 'qb-urgent' : 'qb-unclear'; }
 
 function getQALabel(qa) {
-  var m = {'done_after_reply':'Done message after reply','schedule_visit':'Schedule a visit','direct_to_evisit':'Direct to e-visit','direct_to_both':'Direct to both visit and e-visit','asking_clinician':'Asking a clinician'};
+  var m = { 'done_after_reply': 'Done message after reply', 'schedule_visit': 'Schedule a visit', 'direct_to_evisit': 'Direct to e-visit', 'direct_to_both': 'Direct to both visit and e-visit', 'asking_clinician': 'Asking a clinician' };
   return m[qa] || qa;
 }
+
 function getQAMessage(qa) {
   var m = {
     'schedule_visit': "Thanks for reaching out. Based on your message, it sounds like you'll need a clinical evaluation before we can give a recommendation. To make sure you get the best care, please schedule an appointment.",
@@ -533,12 +520,12 @@ function analyze() {
 }
 
 function renderResult(r, message) {
-  var flagHtml = r.flag && r.flag !== 'null' ? '<div class="rs full"><div class="flag-box' + (r.flag === 'emergency' ? ' emergency' : '') + '">' + (r.flag === 'billing_opportunity' ? 'Billing opportunity — may qualify as a billable E-Visit' : r.flag === 'emergency' ? 'Emergency — escalate immediately' : 'Clinical review needed before responding') + '</div></div>' : '';
+  var flagHtml = r.flag && r.flag !== 'null' ? '<div class="rs full"><div class="flag-box' + (r.flag === 'emergency' ? ' emergency' : '') + '">' + (r.flag === 'billing_opportunity' ? 'Billing opportunity - may qualify as a billable E-Visit' : r.flag === 'emergency' ? 'Emergency - escalate immediately' : 'Clinical review needed before responding') + '</div></div>' : '';
   var qaMsg = getQAMessage(r.quickaction);
   var draftText = qaMsg || r.draft_reply || '';
   var qaIsPrebuilt = !!qaMsg;
-  var approvalLbl = qaIsPrebuilt ? 'Pre-built QuickAction message — edit if needed' : 'Draft reply — review and edit before approving';
-  var qaHtml = '<div class="qa-box"><div class="qa-header"><div class="qa-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div><div><div class="qa-label">Epic QuickAction</div><div class="qa-name">' + getQALabel(r.quickaction) + '</div></div></div><div class="qa-reason">' + (r.quickaction_reason || '') + '</div>' + (qaIsPrebuilt ? '<div class="qa-prebuilt-note">Pre-built message shown below — edit if needed</div>' : '') + '</div>';
+  var approvalLbl = qaIsPrebuilt ? 'Pre-built QuickAction message - edit if needed' : 'Draft reply - review and edit before approving';
+  var qaHtml = '<div class="qa-box"><div class="qa-header"><div class="qa-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div><div><div class="qa-label">Epic QuickAction</div><div class="qa-name">' + getQALabel(r.quickaction) + '</div></div></div><div class="qa-reason">' + (r.quickaction_reason || '') + '</div>' + (qaIsPrebuilt ? '<div class="qa-prebuilt-note">Pre-built message shown below - edit if needed</div>' : '') + '</div>';
   var tipsHtml = '';
   if (r.staff_tips && r.staff_tips.length > 0) {
     tipsHtml = '<div class="rs full"><div class="sl">Epic workflow reminders</div><div class="tips-list">' + r.staff_tips.map(function(t) { return '<div class="tip-item"><div class="tip-dot"></div><span>' + t + '</span></div>'; }).join('') + '</div></div>';
@@ -551,7 +538,7 @@ function renderResult(r, message) {
       '<div class="result-header"><span class="rbadge ' + getBadge(r.routing) + '">' + getLabel(r.routing) + '</span><span class="pbadge ' + getPB(r.priority) + '">' + r.priority + '</span><span style="font-size:13px;color:var(--text2);">' + r.message_type + '</span><span class="confidence-badge ' + getCB(r.confidence) + '">' + r.confidence + ' confidence</span></div>' +
       '<div class="result-body">' + phiNote + '<div class="rs full"><div class="sl">Reasoning</div><div class="st">' + r.reasoning + '</div></div><div class="divider"></div><div class="rs"><div class="sl">Assigned to</div><div class="assign-box"><div class="assign-role">' + r.assigned_role + '</div><div class="assign-reason">' + r.assignment_reason + '</div></div></div><div class="rs"><div class="sl">Suggested action</div><div class="st">' + r.suggested_action + '</div></div><div class="rs full">' + qaHtml + '</div>' + confNote + flagHtml + tipsHtml + '</div>' +
       '<div class="approval-section"><div class="approval-label">' + approvalLbl + '</div><textarea class="draft-ta" id="draftText">' + draftText + '</textarea><div class="approval-actions"><button class="btn-approve" id="approveBtn" onclick="approve()"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Approve &amp; copy</button><button class="btn-discard" onclick="clearAll()">Discard</button><span style="font-size:12px;color:var(--text3);margin-left:auto;">Edit above before approving</span></div><div id="approvedBanner" class="hidden"></div></div>' +
-      '<div class="feedback-panel"><button class="feedback-toggle" id="fbToggle" onclick="toggleFb()"><svg class="feedback-icon" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Was this response accurate? Leave feedback<svg class="toggle-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></button><div class="feedback-body hidden" id="fbBody"><div class="fb-row"><div class="fb-label">How accurate was the AI response?</div><div class="rating-btns"><button class="rating-btn" onclick="setRating(\'accurate\',this)">Accurate</button><button class="rating-btn" onclick="setRating(\'minor_fix\',this)">Needed minor fix</button><button class="rating-btn" onclick="setRating(\'wrong\',this)">Incorrect</button></div></div><div class="fb-row hidden" id="correctionRow"><div class="fb-label">What should it have been?</div><div class="correction-grid"><div><div style="font-size:11px;color:var(--text3);margin-bottom:4px;">Correct routing</div><select class="fb-select" id="corrRouting"><option value="">— same as AI —</option><option>PMAR</option><option>E-Visit</option><option>Urgent</option><option>Unclear</option></select></div><div><div style="font-size:11px;color:var(--text3);margin-bottom:4px;">Correct staff role</div><select class="fb-select" id="corrRole"><option value="">— same as AI —</option><option>Front Desk</option><option>Medical Assistant</option><option>Nurse</option><option>Clinician</option><option>Behavioral Health</option></select></div></div></div><div class="fb-row"><div class="fb-label">Additional notes (optional — do not include patient details)</div><textarea class="fb-note" id="fbNote" placeholder="Describe what was wrong or how it could be improved..."></textarea></div><button class="btn-fb-submit" id="fbSubmitBtn" onclick="submitFeedback()">Submit feedback</button><div id="fbSent" class="hidden fb-sent"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Feedback submitted — thank you!</div></div></div>' +
+      '<div class="feedback-panel"><button class="feedback-toggle" id="fbToggle" onclick="toggleFb()"><svg class="feedback-icon" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Was this response accurate? Leave feedback<svg class="toggle-arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></button><div class="feedback-body hidden" id="fbBody"><div class="fb-row"><div class="fb-label">How accurate was the AI response?</div><div class="rating-btns"><button class="rating-btn" onclick="setRating(\'accurate\',this)">Accurate</button><button class="rating-btn" onclick="setRating(\'minor_fix\',this)">Needed minor fix</button><button class="rating-btn" onclick="setRating(\'wrong\',this)">Incorrect</button></div></div><div class="fb-row hidden" id="correctionRow"><div class="fb-label">What should it have been?</div><div class="correction-grid"><div><div style="font-size:11px;color:var(--text3);margin-bottom:4px;">Correct routing</div><select class="fb-select" id="corrRouting"><option value="">same as AI</option><option>PMAR</option><option>E-Visit</option><option>Urgent</option><option>Unclear</option></select></div><div><div style="font-size:11px;color:var(--text3);margin-bottom:4px;">Correct staff role</div><select class="fb-select" id="corrRole"><option value="">same as AI</option><option>Front Desk</option><option>Medical Assistant</option><option>Nurse</option><option>Clinician</option><option>Behavioral Health</option></select></div></div></div><div class="fb-row"><div class="fb-label">Additional notes (do not include patient details)</div><textarea class="fb-note" id="fbNote" placeholder="Describe what was wrong or how it could be improved..."></textarea></div><button class="btn-fb-submit" id="fbSubmitBtn" onclick="submitFeedback()">Submit feedback</button><div id="fbSent" class="hidden fb-sent"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Feedback submitted - thank you!</div></div></div>' +
     '</div>';
 }
 
@@ -561,12 +548,14 @@ function toggleFb() {
   body.classList.toggle('hidden', isOpen);
   toggle.classList.toggle('open', !isOpen);
 }
+
 function setRating(rating, btn) {
   selectedRating = rating;
   document.querySelectorAll('.rating-btn').forEach(function(b) { b.className = 'rating-btn'; });
   btn.className = 'rating-btn sel-' + rating;
   document.getElementById('correctionRow').classList.toggle('hidden', rating === 'accurate');
 }
+
 function submitFeedback() {
   if (!selectedRating) { alert('Please select an accuracy rating first.'); return; }
   if (!currentResult) return;
@@ -580,16 +569,18 @@ function submitFeedback() {
       document.getElementById('fbSent').classList.remove('hidden');
     }).catch(function() { btn.disabled = false; btn.textContent = 'Submit feedback'; alert('Could not submit feedback.'); });
 }
+
 function approve() {
   var text = document.getElementById('draftText').value;
   navigator.clipboard.writeText(text).then(function() {
     totalApproved++; updateStats();
     document.getElementById('approveBtn').disabled = true;
     var b = document.getElementById('approvedBanner');
-    b.innerHTML = '<div class="approved-banner"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span class="approved-text">Copied — paste into Epic In Basket to send</span><button class="recopy-btn" onclick="navigator.clipboard.writeText(document.getElementById(\'draftText\').value)">Copy again</button></div>';
+    b.innerHTML = '<div class="approved-banner"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg><span class="approved-text">Copied - paste into Epic In Basket to send</span><button class="recopy-btn" onclick="navigator.clipboard.writeText(document.getElementById(\'draftText\').value)">Copy again</button></div>';
     b.classList.remove('hidden');
   });
 }
+
 function addToQueue(message, r) {
   sessionQueue.unshift({ snippet: message.substring(0, 28) + (message.length > 28 ? '...' : ''), routing: r.routing, priority: r.priority });
   var ql = document.getElementById('queueList');
@@ -599,6 +590,7 @@ function addToQueue(message, r) {
   document.getElementById('learningPill').style.display = 'flex';
   document.getElementById('learnCount').textContent = sessionQueue.length;
 }
+
 function updateStats() {
   document.getElementById('statsRow').style.display = 'flex';
   document.getElementById('statTotal').textContent = totalAnalyzed + ' analyzed';
@@ -606,7 +598,6 @@ function updateStats() {
   if (totalFeedback > 0) { var fc = document.getElementById('statFeedback'); fc.style.display = 'block'; fc.textContent = totalFeedback + ' feedback'; }
 }
 
-// ==================== TEMPLATES ====================
 function loadTemplates() {
   fetch('/api/templates').then(function(r) { return r.json(); }).then(function(data) {
     allTemplates = data.templates || [];
@@ -618,9 +609,7 @@ function filterTemplates() {
   var search = document.getElementById('tplSearch').value.toLowerCase();
   var cat = document.getElementById('tplFilter').value;
   var filtered = allTemplates.filter(function(t) {
-    var matchSearch = !search || t.title.toLowerCase().includes(search) || t.body.toLowerCase().includes(search) || t.category.toLowerCase().includes(search);
-    var matchCat = !cat || t.category === cat;
-    return matchSearch && matchCat;
+    return (!search || t.title.toLowerCase().indexOf(search) >= 0 || t.body.toLowerCase().indexOf(search) >= 0 || t.category.toLowerCase().indexOf(search) >= 0) && (!cat || t.category === cat);
   });
   renderTemplates(filtered);
 }
@@ -629,12 +618,7 @@ function renderTemplates(templates) {
   var grid = document.getElementById('tplGrid');
   if (!templates.length) { grid.innerHTML = '<div class="no-data">No templates found.</div>'; return; }
   grid.innerHTML = templates.map(function(t) {
-    return '<div class="tpl-card" id="tpl-' + t.id + '">' +
-      '<div class="tpl-card-header"><div><div class="tpl-title">' + t.title + '</div><div class="tpl-category">' + t.category + '</div></div>' +
-      '<div class="tpl-badges"><span class="rbadge ' + getBadge(t.routing) + '" style="font-size:11px;">' + t.routing + '</span></div></div>' +
-      '<div class="tpl-body">' + t.body + '</div>' +
-      '<div class="tpl-actions"><button class="btn-tpl-use" onclick="useTemplate(\'' + t.id + '\')">Use in triage</button><button class="btn-tpl-edit" onclick="editTemplate(\'' + t.id + '\')">Edit</button><button class="btn-tpl-del" onclick="deleteTemplate(\'' + t.id + '\')" title="Delete">×</button></div>' +
-    '</div>';
+    return '<div class="tpl-card"><div class="tpl-card-header"><div><div class="tpl-title">' + t.title + '</div><div class="tpl-category">' + t.category + '</div></div><span class="rbadge ' + getBadge(t.routing) + '" style="font-size:11px;flex-shrink:0;">' + t.routing + '</span></div><div class="tpl-body">' + t.body + '</div><div class="tpl-actions"><button class="btn-tpl-use" onclick="useTemplate(\'' + t.id + '\')">Use</button><button class="btn-tpl-edit" onclick="editTemplate(\'' + t.id + '\')">Edit</button><button class="btn-tpl-del" onclick="deleteTemplate(\'' + t.id + '\')" title="Delete">x</button></div></div>';
   }).join('');
 }
 
@@ -646,7 +630,6 @@ function useTemplate(id) {
   if (document.getElementById('draftText')) {
     document.getElementById('draftText').value = t.body;
   } else {
-    msgInput.value = '';
     output.innerHTML = '<div class="result-card"><div class="approval-section"><div class="approval-label">Template: ' + t.title + '</div><textarea class="draft-ta" id="draftText">' + t.body + '</textarea><div class="approval-actions"><button class="btn-approve" id="approveBtn" onclick="approve()"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>Approve &amp; copy</button></div><div id="approvedBanner" class="hidden"></div></div></div>';
   }
 }
@@ -654,19 +637,7 @@ function useTemplate(id) {
 function showTemplateForm(existing) {
   var container = document.getElementById('tplFormContainer');
   var t = existing || { id: '', title: '', category: '', routing: 'PMAR', role: 'Front Desk', body: '' };
-  container.innerHTML = '<div class="tpl-form">' +
-    '<div class="tpl-form-title">' + (existing ? 'Edit template' : 'New template') + '</div>' +
-    '<div class="form-grid">' +
-      '<div class="form-row"><div class="form-label">Title</div><input type="text" class="form-input" id="fTitle" value="' + t.title + '" placeholder="e.g. Routine refill — stable patient"></div>' +
-      '<div class="form-row"><div class="form-label">Category</div><input type="text" class="form-input" id="fCategory" value="' + t.category + '" placeholder="e.g. Medication Refill"></div>' +
-    '</div>' +
-    '<div class="form-grid">' +
-      '<div class="form-row"><div class="form-label">Routing</div><select class="form-select" id="fRouting"><option' + (t.routing==='PMAR'?' selected':'') + '>PMAR</option><option' + (t.routing==='E-Visit'?' selected':'') + '>E-Visit</option><option' + (t.routing==='Urgent'?' selected':'') + '>Urgent</option><option' + (t.routing==='Needs Clinician Input'?' selected':'') + '>Needs Clinician Input</option></select></div>' +
-      '<div class="form-row"><div class="form-label">Staff role</div><select class="form-select" id="fRole"><option' + (t.role==='Front Desk'?' selected':'') + '>Front Desk</option><option' + (t.role==='Medical Assistant'?' selected':'') + '>Medical Assistant</option><option' + (t.role==='Nurse'?' selected':'') + '>Nurse</option><option' + (t.role==='Clinician'?' selected':'') + '>Clinician</option><option' + (t.role==='Behavioral Health'?' selected':'') + '>Behavioral Health</option></select></div>' +
-    '</div>' +
-    '<div class="form-row"><div class="form-label">Reply body</div><textarea class="form-textarea" id="fBody" placeholder="Type the pre-approved reply text here...">' + t.body + '</textarea></div>' +
-    '<div class="form-actions"><button class="btn-primary" onclick="saveTemplate(\'' + t.id + '\')">Save template</button><button class="btn-ghost" onclick="hideTemplateForm()">Cancel</button></div>' +
-  '</div>';
+  container.innerHTML = '<div class="tpl-form"><div class="tpl-form-title">' + (existing ? 'Edit template' : 'New template') + '</div><div class="form-grid"><div class="form-row"><div class="form-label">Title</div><input type="text" class="form-input" id="fTitle" value="' + t.title + '" placeholder="e.g. Routine refill - stable patient"></div><div class="form-row"><div class="form-label">Category</div><input type="text" class="form-input" id="fCategory" value="' + t.category + '" placeholder="e.g. Medication Refill"></div></div><div class="form-grid"><div class="form-row"><div class="form-label">Routing</div><select class="form-select" id="fRouting"><option' + (t.routing === 'PMAR' ? ' selected' : '') + '>PMAR</option><option' + (t.routing === 'E-Visit' ? ' selected' : '') + '>E-Visit</option><option' + (t.routing === 'Urgent' ? ' selected' : '') + '>Urgent</option><option' + (t.routing === 'Needs Clinician Input' ? ' selected' : '') + '>Needs Clinician Input</option></select></div><div class="form-row"><div class="form-label">Staff role</div><select class="form-select" id="fRole"><option' + (t.role === 'Front Desk' ? ' selected' : '') + '>Front Desk</option><option' + (t.role === 'Medical Assistant' ? ' selected' : '') + '>Medical Assistant</option><option' + (t.role === 'Nurse' ? ' selected' : '') + '>Nurse</option><option' + (t.role === 'Clinician' ? ' selected' : '') + '>Clinician</option><option' + (t.role === 'Behavioral Health' ? ' selected' : '') + '>Behavioral Health</option></select></div></div><div class="form-row"><div class="form-label">Reply body</div><textarea class="form-textarea" id="fBody" placeholder="Type the pre-approved reply text here...">' + t.body + '</textarea></div><div class="form-actions"><button class="btn-primary" onclick="saveTemplate(\'' + t.id + '\')">Save template</button><button class="btn-ghost" onclick="hideTemplateForm()">Cancel</button></div></div>';
   container.classList.remove('hidden');
 }
 
@@ -678,15 +649,7 @@ function editTemplate(id) {
 }
 
 function saveTemplate(existingId) {
-  var template = {
-    id: existingId || '',
-    title: document.getElementById('fTitle').value.trim(),
-    category: document.getElementById('fCategory').value.trim(),
-    routing: document.getElementById('fRouting').value,
-    role: document.getElementById('fRole').value,
-    body: document.getElementById('fBody').value.trim(),
-    approved: true
-  };
+  var template = { id: existingId || '', title: document.getElementById('fTitle').value.trim(), category: document.getElementById('fCategory').value.trim(), routing: document.getElementById('fRouting').value, role: document.getElementById('fRole').value, body: document.getElementById('fBody').value.trim(), custom: true };
   if (!template.title || !template.body) { alert('Title and reply body are required.'); return; }
   fetch('/api/templates', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ template: template }) })
     .then(function() { hideTemplateForm(); loadTemplates(); })
@@ -700,7 +663,6 @@ function deleteTemplate(id) {
     .catch(function() { alert('Could not delete template.'); });
 }
 
-// ==================== TRAINING ====================
 function startTraining() {
   fetch('/api/training').then(function(r) { return r.json(); }).then(function(data) {
     trainingScenarios = data.scenarios || [];
@@ -714,8 +676,7 @@ function startTraining() {
 }
 
 function updateTrainingStats() {
-  var maxScore = trainingIdx * 3;
-  document.getElementById('trainScoreVal').textContent = trainingScore + '/' + maxScore;
+  document.getElementById('trainScoreVal').textContent = trainingScore + '/' + (trainingIdx * 3);
   document.getElementById('trainPerfectVal').textContent = trainingPerfect;
   document.getElementById('trainProgressVal').textContent = trainingIdx + '/' + trainingScenarios.length;
 }
@@ -726,17 +687,9 @@ function renderScenario() {
   trainingAnswers = { routing: null, role: null, quickaction: null };
   trainingSubmitted = false;
   var pct = Math.round((trainingIdx / trainingScenarios.length) * 100);
-
   var routingOpts = ['PMAR', 'E-Visit', 'Urgent', 'Unclear', 'Needs Clinician Input'];
   var roleOpts = ['Front Desk', 'Medical Assistant', 'Nurse', 'Clinician', 'Behavioral Health'];
-  var qaOpts = [
-    { val: 'done_after_reply', label: 'Done after reply' },
-    { val: 'schedule_visit', label: 'Schedule a visit' },
-    { val: 'direct_to_evisit', label: 'Direct to e-visit' },
-    { val: 'direct_to_both', label: 'Direct to both' },
-    { val: 'asking_clinician', label: 'Asking a clinician' }
-  ];
-
+  var qaOpts = [{ val: 'done_after_reply', label: 'Done after reply' }, { val: 'schedule_visit', label: 'Schedule a visit' }, { val: 'direct_to_evisit', label: 'Direct to e-visit' }, { val: 'direct_to_both', label: 'Direct to both' }, { val: 'asking_clinician', label: 'Asking a clinician' }];
   document.getElementById('trainingContent').innerHTML =
     '<div class="scenario-card">' +
       '<div class="scenario-progress"><span class="progress-label">Scenario ' + (trainingIdx + 1) + ' of ' + trainingScenarios.length + '</span><div class="progress-bar-outer"><div class="progress-bar-inner" style="width:' + pct + '%"></div></div></div>' +
@@ -752,8 +705,7 @@ function renderScenario() {
 
 function selectAnswer(type, val, btn) {
   if (trainingSubmitted) return;
-  var container = btn.parentNode;
-  container.querySelectorAll('.answer-btn').forEach(function(b) { b.className = 'answer-btn'; });
+  btn.parentNode.querySelectorAll('.answer-btn').forEach(function(b) { b.className = 'answer-btn'; });
   btn.className = 'answer-btn selected';
   trainingAnswers[type] = val;
   if (trainingAnswers.routing && trainingAnswers.role && trainingAnswers.quickaction) {
@@ -772,19 +724,17 @@ function submitScenario(scenarioId) {
       if (result.correct) trainingPerfect++;
       trainingIdx++;
       updateTrainingStats();
-
-      // Highlight correct/incorrect answers
       var qaLabelMap = { 'done_after_reply': 'Done after reply', 'schedule_visit': 'Schedule a visit', 'direct_to_evisit': 'Direct to e-visit', 'direct_to_both': 'Direct to both', 'asking_clinician': 'Asking a clinician' };
       markAnswers('routingOpts', trainingAnswers.routing, result.correctRouting);
       markAnswers('roleOpts', trainingAnswers.role, result.correctRole);
       markAnswersQA('qaOpts', trainingAnswers.quickaction, result.correctQuickaction, qaLabelMap);
-
       var bannerClass = result.correct ? 'perfect' : result.score >= 2 ? 'partial' : 'wrong';
-      var bannerTitle = result.correct ? 'Perfect — all 3 correct!' : result.score === 2 ? '2 out of 3 correct' : result.score === 1 ? '1 out of 3 correct' : 'Not quite — review the explanation below';
+      var bannerTitle = result.correct ? 'Perfect - all 3 correct!' : result.score === 2 ? '2 out of 3 correct' : result.score === 1 ? '1 out of 3 correct' : 'Not quite - review the explanation below';
       document.getElementById('scenarioResult').innerHTML = '<div class="result-banner ' + bannerClass + '"><strong>' + bannerTitle + '</strong><div class="result-explanation">' + result.explanation + '</div></div>';
-      document.getElementById('submitScenarioBtn').textContent = trainingIdx < trainingScenarios.length ? 'Next scenario' : 'See results';
-      document.getElementById('submitScenarioBtn').disabled = false;
-      document.getElementById('submitScenarioBtn').onclick = function() { renderScenario(); };
+      var nextBtn = document.getElementById('submitScenarioBtn');
+      nextBtn.textContent = trainingIdx < trainingScenarios.length ? 'Next scenario' : 'See results';
+      nextBtn.disabled = false;
+      nextBtn.onclick = function() { renderScenario(); };
     });
 }
 
@@ -818,24 +768,108 @@ function showTrainingComplete() {
   var maxScore = trainingScenarios.length * 3;
   var pct = Math.round((trainingScore / maxScore) * 100);
   document.getElementById('trainingContent').innerHTML =
-    '<div class="training-complete">' +
-      '<div class="complete-score">' + pct + '%</div>' +
-      '<div class="complete-label">Training session complete</div>' +
-      '<div class="complete-breakdown">' +
-        '<div class="complete-stat"><div class="complete-stat-val">' + trainingScore + '/' + maxScore + '</div><div class="complete-stat-lbl">Total score</div></div>' +
-        '<div class="complete-stat"><div class="complete-stat-val">' + trainingPerfect + '/' + trainingScenarios.length + '</div><div class="complete-stat-lbl">Perfect answers</div></div>' +
-      '</div>' +
-      '<p style="font-size:13px;color:var(--purple);margin-top:1.25rem;">' + (pct >= 90 ? 'Excellent work — you are ready for live triage!' : pct >= 70 ? 'Good effort — review the scenarios you missed and try again.' : 'Keep practicing — focus on the routing rules and QuickAction guidelines.') + '</p>' +
-      '<button class="btn-purple" onclick="startTraining()" style="margin:1.25rem auto 0;display:flex;">Try again</button>' +
-    '</div>';
+    '<div class="training-complete"><div class="complete-score">' + pct + '%</div><div class="complete-label">Training session complete</div><div class="complete-breakdown"><div class="complete-stat"><div class="complete-stat-val">' + trainingScore + '/' + maxScore + '</div><div class="complete-stat-lbl">Total score</div></div><div class="complete-stat"><div class="complete-stat-val">' + trainingPerfect + '/' + trainingScenarios.length + '</div><div class="complete-stat-lbl">Perfect answers</div></div></div><p style="font-size:13px;color:var(--purple);margin-top:1.25rem;">' + (pct >= 90 ? 'Excellent work - you are ready for live triage!' : pct >= 70 ? 'Good effort - review the scenarios you missed and try again.' : 'Keep practicing - focus on the routing rules and QuickAction guidelines.') + '</p><button class="btn-purple" onclick="startTraining()" style="margin:1.25rem auto 0;">Try again</button></div>';
 }
 
-// ==================== ANALYTICS ====================
+function showScenarioManager() {
+  fetch('/api/training?mode=manage').then(function(r) { return r.json(); }).then(function(data) {
+    allScenarios = data.scenarios || [];
+    renderScenarioManager(data.deletedDefaults || []);
+  }).catch(function() {
+    document.getElementById('trainingContent').innerHTML = '<div class="no-data">Could not load scenarios.</div>';
+  });
+}
+
+function renderScenarioManager(deletedDefaults) {
+  deletedDefaults = deletedDefaults || [];
+  var qaLabels = { 'done_after_reply': 'Done after reply', 'schedule_visit': 'Schedule a visit', 'direct_to_evisit': 'Direct to e-visit', 'direct_to_both': 'Direct to both', 'asking_clinician': 'Asking a clinician' };
+  var html = '<div style="display:flex;flex-direction:column;gap:1rem;">';
+  html += '<div class="scen-manager-header"><div><div style="font-size:15px;font-weight:500;">Manage scenarios</div><div style="font-size:13px;color:var(--text2);margin-top:2px;">' + allScenarios.length + ' active, ' + deletedDefaults.length + ' hidden</div></div>';
+  html += '<div style="display:flex;gap:8px;">';
+  html += '<button class="btn-purple" onclick="showScenarioForm(null)" style="display:flex;align-items:center;gap:5px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>New scenario</button>';
+  html += '<button class="btn-ghost" onclick="backToTrainingHome()">Back</button></div></div>';
+  html += '<div id="scenFormContainer" class="hidden"></div>';
+  html += '<div style="display:flex;flex-direction:column;gap:10px;">';
+  allScenarios.forEach(function(s) {
+    html += '<div class="scen-card"><div class="scen-card-header"><div class="scen-message">"' + s.message + '"</div>';
+    html += '<div class="scen-actions">';
+    if (s.custom) html += '<button class="btn-scen-edit" onclick="showScenarioForm(\'' + s.id + '\')">Edit</button>';
+    html += '<button class="btn-scen-del" onclick="deleteScenario(\'' + s.id + '\')" title="Remove">x</button>';
+    html += '</div></div>';
+    html += '<div class="scen-meta"><span class="rbadge ' + getBadge(s.correct_routing) + '" style="font-size:11px;">' + s.correct_routing + '</span><span style="font-size:12px;color:var(--text2);">' + s.correct_role + '</span><span style="font-size:12px;color:var(--text3);">- ' + (qaLabels[s.correct_quickaction] || s.correct_quickaction) + '</span>';
+    html += s.custom ? '<span class="scen-custom-badge">Custom</span>' : '<span class="scen-default-badge">Built-in</span>';
+    html += '</div><div class="scen-explanation">' + s.explanation + '</div></div>';
+  });
+  html += '</div>';
+  if (deletedDefaults.length > 0) {
+    html += '<div style="margin-top:0.5rem;"><div class="hidden-section-title">Hidden built-in scenarios</div><div style="display:flex;flex-direction:column;gap:8px;">';
+    deletedDefaults.forEach(function(s) {
+      html += '<div style="background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 14px;display:flex;align-items:center;gap:10px;opacity:0.7;">';
+      html += '<span style="flex:1;font-size:13px;color:var(--text2);">"' + s.message.substring(0, 80) + (s.message.length > 80 ? '...' : '') + '"</span>';
+      html += '<button class="btn-scen-edit" onclick="restoreScenario(\'' + s.id + '\')">Restore</button></div>';
+    });
+    html += '</div></div>';
+  }
+  html += '</div>';
+  document.getElementById('trainingContent').innerHTML = html;
+  document.getElementById('trainingScoreBar').style.display = 'none';
+}
+
+function backToTrainingHome() {
+  document.getElementById('trainingScoreBar').style.display = 'none';
+  document.getElementById('trainingContent').innerHTML = '<div style="text-align:center;padding:2rem;display:flex;flex-direction:column;align-items:center;gap:12px;"><button class="btn-purple" onclick="startTraining()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>Start training session</button><button class="btn-ghost" onclick="showScenarioManager()">Manage scenarios</button></div>';
+}
+
+function showScenarioForm(id) {
+  var s = id ? allScenarios.find(function(x) { return x.id === id; }) : null;
+  var container = document.getElementById('scenFormContainer');
+  var selR = function(val, opt) { return val === opt ? ' selected' : ''; };
+  container.innerHTML = '<div class="scen-form"><div class="scen-form-title">' + (s ? 'Edit scenario' : 'New custom scenario') + '</div>' +
+    '<div class="form-row"><div class="form-label">Patient message (do not include real PHI)</div><textarea class="form-textarea" id="sfMessage" placeholder="Write a realistic patient message without real names or identifiers...">' + (s ? s.message : '') + '</textarea></div>' +
+    '<div class="form-grid">' +
+      '<div class="form-row"><div class="form-label">Correct routing</div><select class="form-select" id="sfRouting"><option' + selR(s && s.correct_routing, 'PMAR') + '>PMAR</option><option' + selR(s && s.correct_routing, 'E-Visit') + '>E-Visit</option><option' + selR(s && s.correct_routing, 'Urgent') + '>Urgent</option><option' + selR(s && s.correct_routing, 'Unclear') + '>Unclear</option><option' + selR(s && s.correct_routing, 'Needs Clinician Input') + '>Needs Clinician Input</option></select></div>' +
+      '<div class="form-row"><div class="form-label">Correct staff role</div><select class="form-select" id="sfRole"><option' + selR(s && s.correct_role, 'Front Desk') + '>Front Desk</option><option' + selR(s && s.correct_role, 'Medical Assistant') + '>Medical Assistant</option><option' + selR(s && s.correct_role, 'Nurse') + '>Nurse</option><option' + selR(s && s.correct_role, 'Clinician') + '>Clinician</option><option' + selR(s && s.correct_role, 'Behavioral Health') + '>Behavioral Health</option></select></div>' +
+    '</div>' +
+    '<div class="form-row"><div class="form-label">Correct Epic QuickAction</div><select class="form-select" id="sfQA"><option value="done_after_reply"' + selR(s && s.correct_quickaction, 'done_after_reply') + '>Done after reply</option><option value="schedule_visit"' + selR(s && s.correct_quickaction, 'schedule_visit') + '>Schedule a visit</option><option value="direct_to_evisit"' + selR(s && s.correct_quickaction, 'direct_to_evisit') + '>Direct to e-visit</option><option value="direct_to_both"' + selR(s && s.correct_quickaction, 'direct_to_both') + '>Direct to both visit and e-visit</option><option value="asking_clinician"' + selR(s && s.correct_quickaction, 'asking_clinician') + '>Asking a clinician</option></select></div>' +
+    '<div class="form-row"><div class="form-label">Explanation (shown after staff submits answer)</div><textarea class="form-textarea" id="sfExplanation" placeholder="Explain why this routing is correct...">' + (s ? s.explanation : '') + '</textarea></div>' +
+    '<div class="form-actions"><button class="btn-purple" onclick="saveScenario(\'' + (s ? s.id : '') + '\')">Save scenario</button><button class="btn-ghost" onclick="hideScenarioForm()">Cancel</button></div></div>';
+  container.classList.remove('hidden');
+  container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function hideScenarioForm() {
+  var c = document.getElementById('scenFormContainer');
+  if (c) { c.classList.add('hidden'); c.innerHTML = ''; }
+}
+
+function saveScenario(existingId) {
+  var message = document.getElementById('sfMessage').value.trim();
+  var explanation = document.getElementById('sfExplanation').value.trim();
+  if (!message || !explanation) { alert('Patient message and explanation are required.'); return; }
+  var scenario = { id: existingId || '', message: message, correct_routing: document.getElementById('sfRouting').value, correct_role: document.getElementById('sfRole').value, correct_quickaction: document.getElementById('sfQA').value, explanation: explanation, custom: true };
+  fetch('/api/training', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ scenario: scenario }) })
+    .then(function() { hideScenarioForm(); showScenarioManager(); })
+    .catch(function() { alert('Could not save scenario. Please try again.'); });
+}
+
+function deleteScenario(id) {
+  if (!confirm('Remove this scenario from training?')) return;
+  fetch('/api/training', { method: 'DELETE', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ id: id }) })
+    .then(function() { showScenarioManager(); })
+    .catch(function() { alert('Could not delete scenario.'); });
+}
+
+function restoreScenario(id) {
+  fetch('/api/training', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ restore: id }) })
+    .then(function() { showScenarioManager(); })
+    .catch(function() { alert('Could not restore scenario.'); });
+}
+
 function loadAnalytics() {
   var el = document.getElementById('analyticsContent');
   el.innerHTML = '<div class="no-data">Loading...</div>';
   fetch('/api/analytics').then(function(r) { return r.json(); }).then(function(data) {
-    if (!data.available) { el.innerHTML = '<div class="no-data">Analytics not available yet — analyze some messages first.</div>'; return; }
+    if (!data.available) { el.innerHTML = '<div class="no-data">Analytics not available yet - analyze some messages first.</div>'; return; }
     renderAnalytics(data, el);
   }).catch(function() { el.innerHTML = '<div class="no-data">Could not load analytics.</div>'; });
 }
@@ -851,121 +885,20 @@ function renderAnalytics(data, el) {
   var maxType = topTypes.length > 0 ? topTypes[0].count : 1;
   var maxRole = Math.max.apply(null, roleKeys.map(function(k) { return parseInt(roles[k] || 0); }).concat([1]));
   var corrEntries = Object.entries(fbC).sort(function(a, b) { return b[1] - a[1]; }).slice(0, 5);
-
   el.innerHTML =
     '<div class="analytics-grid">' +
       '<div class="metric-card"><div class="metric-label">Total messages processed</div><div class="metric-value">' + total + '</div><div class="metric-sub">Across all sessions</div></div>' +
       '<div class="metric-card"><div class="metric-label">Unique message types</div><div class="metric-value">' + topTypes.length + '</div><div class="metric-sub">Distinct categories identified</div></div>' +
-      '<div class="metric-card full"><div class="metric-label" style="margin-bottom:10px;">Volume — last 14 days</div><div class="daily-bars">' + daily.map(function(d) { return '<div class="day-bar-wrap"><div class="day-bar" style="height:' + Math.max(4, Math.round((d.count / maxDay) * 72)) + 'px;" title="' + d.day + ': ' + d.count + '"></div><div class="day-label">' + d.day.slice(5) + '</div></div>'; }).join('') + '</div></div>' +
-      '<div class="metric-card"><div class="metric-label" style="margin-bottom:12px;">Routing breakdown</div><div class="routing-grid">' + ['PMAR','E-Visit','Urgent','Unclear'].map(function(k) { return '<div class="routing-cell"><div class="routing-cell-value">' + (routing[k] || 0) + '</div><div class="routing-cell-label">' + k + '</div></div>'; }).join('') + '</div></div>' +
+      '<div class="metric-card full"><div class="metric-label" style="margin-bottom:10px;">Volume - last 14 days</div><div class="daily-bars">' + daily.map(function(d) { return '<div class="day-bar-wrap"><div class="day-bar" style="height:' + Math.max(4, Math.round((d.count / maxDay) * 72)) + 'px;" title="' + d.day + ': ' + d.count + '"></div><div class="day-label">' + d.day.slice(5) + '</div></div>'; }).join('') + '</div></div>' +
+      '<div class="metric-card"><div class="metric-label" style="margin-bottom:12px;">Routing breakdown</div><div class="routing-grid">' + ['PMAR', 'E-Visit', 'Urgent', 'Unclear'].map(function(k) { return '<div class="routing-cell"><div class="routing-cell-value">' + (routing[k] || 0) + '</div><div class="routing-cell-label">' + k + '</div></div>'; }).join('') + '</div></div>' +
       '<div class="metric-card"><div class="metric-label" style="margin-bottom:12px;">Staff assignment breakdown</div><div class="bar-chart">' + roleKeys.map(function(k) { var c = parseInt(roles[k] || 0); return '<div class="bar-row"><div class="bar-label">' + k + '</div><div class="bar-track"><div class="bar-fill" style="width:' + Math.round((c / maxRole) * 100) + '%"></div></div><div class="bar-count">' + c + '</div></div>'; }).join('') + '</div></div>' +
       '<div class="metric-card full"><div class="metric-label" style="margin-bottom:12px;">Top message types</div>' + (topTypes.length === 0 ? '<div style="font-size:13px;color:var(--text3);">No data yet</div>' : '<div class="bar-chart">' + topTypes.slice(0, 8).map(function(t) { return '<div class="bar-row"><div class="bar-label">' + t.type + '</div><div class="bar-track"><div class="bar-fill" style="width:' + Math.round((t.count / maxType) * 100) + '%"></div></div><div class="bar-count">' + t.count + '</div></div>'; }).join('') + '</div>') + '</div>' +
-      (trends.length > 0 ? '<div class="metric-card full"><div class="metric-label" style="margin-bottom:10px;">Recent trends</div><div>' + trends.map(function(t) { return '<span class="trend-chip">↑ ' + t + '</span>'; }).join('') + '</div></div>' : '') +
+      (trends.length > 0 ? '<div class="metric-card full"><div class="metric-label" style="margin-bottom:10px;">Recent trends</div><div>' + trends.map(function(t) { return '<span class="trend-chip">up ' + t + '</span>'; }).join('') + '</div></div>' : '') +
       '<div class="metric-card"><div class="metric-label">Staff feedback received</div><div class="metric-value">' + fbTotal + '</div><div class="metric-sub">' + (accPct !== null ? accPct + '% rated accurate' : 'No feedback yet') + '</div></div>' +
       '<div class="metric-card"><div class="metric-label" style="margin-bottom:12px;">Feedback breakdown</div>' + (fbTotal === 0 ? '<div style="font-size:13px;color:var(--text3);">No feedback submitted yet</div>' : '<div class="bar-chart"><div class="bar-row"><div class="bar-label">Accurate</div><div class="bar-track"><div class="bar-fill" style="width:' + Math.round((accurate / fbTotal) * 100) + '%"></div></div><div class="bar-count">' + accurate + '</div></div><div class="bar-row"><div class="bar-label">Minor fix needed</div><div class="bar-track"><div class="bar-fill amber" style="width:' + Math.round((minor / fbTotal) * 100) + '%"></div></div><div class="bar-count">' + minor + '</div></div><div class="bar-row"><div class="bar-label">Incorrect</div><div class="bar-track"><div class="bar-fill red" style="width:' + Math.round((wrong / fbTotal) * 100) + '%"></div></div><div class="bar-count">' + wrong + '</div></div></div>') + '</div>' +
       (corrEntries.length > 0 ? '<div class="metric-card full"><div class="metric-label" style="margin-bottom:12px;">Common routing corrections</div><div class="bar-chart">' + corrEntries.map(function(e) { return '<div class="bar-row"><div class="bar-label">' + e[0] + '</div><div class="bar-track"><div class="bar-fill amber" style="width:' + Math.round((parseInt(e[1]) / parseInt(corrEntries[0][1])) * 100) + '%"></div></div><div class="bar-count">' + e[1] + '</div></div>'; }).join('') + '</div></div>' : '') +
-      (rf.length > 0 ? '<div class="metric-card full"><div class="metric-label" style="margin-bottom:12px;">Recent feedback</div><table class="fb-table"><thead><tr><th>AI routing</th><th>Rating</th><th>Notes</th></tr></thead><tbody>' + rf.map(function(f) { return '<tr><td><span class="rbadge ' + getBadge(f.aiRouting) + '" style="font-size:11px;">' + (f.aiRouting || '—') + '</span></td><td><span class="rp rp-' + f.rating + '">' + (f.rating === 'accurate' ? 'Accurate' : f.rating === 'minor_fix' ? 'Minor fix' : 'Incorrect') + '</span></td><td style="font-size:12px;">' + (f.feedbackNote || '—') + '</td></tr>'; }).join('') + '</tbody></table></div>' : '') +
+      (rf.length > 0 ? '<div class="metric-card full"><div class="metric-label" style="margin-bottom:12px;">Recent feedback</div><table class="fb-table"><thead><tr><th>AI routing</th><th>Rating</th><th>Notes</th></tr></thead><tbody>' + rf.map(function(f) { return '<tr><td><span class="rbadge ' + getBadge(f.aiRouting) + '" style="font-size:11px;">' + (f.aiRouting || '-') + '</span></td><td><span class="rp rp-' + f.rating + '">' + (f.rating === 'accurate' ? 'Accurate' : f.rating === 'minor_fix' ? 'Minor fix' : 'Incorrect') + '</span></td><td style="font-size:12px;">' + (f.feedbackNote || '-') + '</td></tr>'; }).join('') + '</tbody></table></div>' : '') +
     '</div>';
-}
-
-// ==================== SCENARIO MANAGER ====================
-var allScenarios = [];
-
-function showScenarioManager() {
-  fetch('/api/training?mode=manage').then(function(r) { return r.json(); }).then(function(data) {
-    allScenarios = data.scenarios || [];
-    renderScenarioManager(data.deletedDefaults || []);
-  }).catch(function() {
-    document.getElementById('trainingContent').innerHTML = '<div class="no-data">Could not load scenarios.</div>';
-  });
-}
-
-function renderScenarioManager(deletedDefaults) {
-  deletedDefaults = deletedDefaults || [];
-  var qaLabels = { 'done_after_reply': 'Done after reply', 'schedule_visit': 'Schedule a visit', 'direct_to_evisit': 'Direct to e-visit', 'direct_to_both': 'Direct to both', 'asking_clinician': 'Asking a clinician' };
-  var html = '<div style="display:flex;flex-direction:column;gap:1rem;">';
-  html += '<div class="scen-manager-header"><div><div style="font-size:15px;font-weight:500;">Manage scenarios</div><div style="font-size:13px;color:var(--text2);margin-top:2px;">' + allScenarios.length + ' active (' + allScenarios.filter(function(s){return s.custom;}).length + ' custom, ' + deletedDefaults.length + ' built-in hidden)</div></div><div style="display:flex;gap:8px;"><button class="btn-purple" onclick="showScenarioForm(null)" style="display:flex;align-items:center;gap:5px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>New scenario</button><button class="btn-ghost" onclick="backToTrainingHome()">Back</button></div></div>';
-  html += '<div id="scenFormContainer" class="hidden"></div>';
-  html += '<div style="display:flex;flex-direction:column;gap:10px;" id="scenList">';
-  allScenarios.forEach(function(s) {
-    html += '<div class="scen-card" id="scencard-' + s.id + '">';
-    html += '<div class="scen-card-header"><div class="scen-message">"' + s.message + '"</div><div class="scen-actions">';
-    if (s.custom) {
-      html += '<button class="btn-scen-edit" onclick="showScenarioForm('' + s.id + '')">Edit</button>';
-    }
-    html += '<button class="btn-scen-del" onclick="deleteScenario('' + s.id + '')" title="Remove from training">×</button>';
-    html += '</div></div>';
-    html += '<div class="scen-meta"><span class="rbadge ' + getBadge(s.correct_routing) + '" style="font-size:11px;">' + s.correct_routing + '</span><span style="font-size:12px;color:var(--text2);">' + s.correct_role + '</span><span style="font-size:12px;color:var(--text3);">→ ' + (qaLabels[s.correct_quickaction] || s.correct_quickaction) + '</span>' + (s.custom ? '<span class="scen-custom-badge">Custom</span>' : '<span class="scen-default-badge">Built-in</span>') + '</div>';
-    html += '<div class="scen-explanation">' + s.explanation + '</div>';
-    html += '</div>';
-  });
-  html += '</div>';
-  if (deletedDefaults.length > 0) {
-    html += '<div style="margin-top:1rem;"><div style="font-size:13px;font-weight:500;color:var(--text2);margin-bottom:8px;">Hidden built-in scenarios</div><div style="display:flex;flex-direction:column;gap:8px;">';
-    deletedDefaults.forEach(function(s) {
-      html += '<div style="background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 14px;display:flex;align-items:center;gap:10px;opacity:0.7;">';
-      html += '<span style="flex:1;font-size:13px;color:var(--text2);">"' + s.message.substring(0, 80) + (s.message.length > 80 ? "..." : "") + '"</span>';
-      html += '<button class="btn-scen-edit" onclick="restoreScenario('' + s.id + '')">Restore</button>';
-      html += '</div>';
-    });
-    html += '</div></div>';
-  }
-  html += '</div>';
-  document.getElementById('trainingContent').innerHTML = html;
-}
-
-function backToTrainingHome() {
-  document.getElementById('trainingContent').innerHTML = '<div style="text-align:center;padding:2rem;display:flex;flex-direction:column;align-items:center;gap:12px;"><button class="btn-purple" onclick="startTraining()" style="display:flex;align-items:center;gap:5px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>Start training session</button><button class="btn-ghost" onclick="showScenarioManager()">Manage scenarios</button></div>';
-  document.getElementById('trainingScoreBar').style.display = 'none';
-}
-
-function showScenarioForm(id) {
-  var s = id ? allScenarios.find(function(x) { return x.id === id; }) : null;
-  var container = document.getElementById('scenFormContainer');
-  container.innerHTML = '<div class="scen-form">' +
-    '<div class="scen-form-title">' + (s ? 'Edit scenario' : 'New custom scenario') + '</div>' +
-    '<div class="form-row"><div class="form-label">Patient message (do not include real PHI)</div><textarea class="form-textarea" id="sfMessage" placeholder="Write a realistic patient message without real names or identifiers...">' + (s ? s.message : '') + '</textarea></div>' +
-    '<div class="form-grid">' +
-      '<div class="form-row"><div class="form-label">Correct routing</div><select class="form-select" id="sfRouting"><option' + (!s||s.correct_routing==="PMAR"?" selected":"") + '>PMAR</option><option' + (s&&s.correct_routing==="E-Visit"?" selected":"") + '>E-Visit</option><option' + (s&&s.correct_routing==="Urgent"?" selected":"") + '>Urgent</option><option' + (s&&s.correct_routing==="Unclear"?" selected":"") + '>Unclear</option><option' + (s&&s.correct_routing==="Needs Clinician Input"?" selected":"") + '>Needs Clinician Input</option></select></div>' +
-      '<div class="form-row"><div class="form-label">Correct staff role</div><select class="form-select" id="sfRole"><option' + (!s||s.correct_role==="Front Desk"?" selected":"") + '>Front Desk</option><option' + (s&&s.correct_role==="Medical Assistant"?" selected":"") + '>Medical Assistant</option><option' + (s&&s.correct_role==="Nurse"?" selected":"") + '>Nurse</option><option' + (s&&s.correct_role==="Clinician"?" selected":"") + '>Clinician</option><option' + (s&&s.correct_role==="Behavioral Health"?" selected":"") + '>Behavioral Health</option></select></div>' +
-    '</div>' +
-    '<div class="form-row"><div class="form-label">Correct Epic QuickAction</div><select class="form-select" id="sfQA"><option value="done_after_reply"' + (!s||s.correct_quickaction==="done_after_reply"?" selected":"") + '>Done after reply</option><option value="schedule_visit"' + (s&&s.correct_quickaction==="schedule_visit"?" selected":"") + '>Schedule a visit</option><option value="direct_to_evisit"' + (s&&s.correct_quickaction==="direct_to_evisit"?" selected":"") + '>Direct to e-visit</option><option value="direct_to_both"' + (s&&s.correct_quickaction==="direct_to_both"?" selected":"") + '>Direct to both visit and e-visit</option><option value="asking_clinician"' + (s&&s.correct_quickaction==="asking_clinician"?" selected":"") + '>Asking a clinician</option></select></div>' +
-    '<div class="form-row"><div class="form-label">Explanation (shown after staff submits answer)</div><textarea class="form-textarea" id="sfExplanation" placeholder="Explain why this routing is correct — this is the teaching moment for staff...">' + (s ? s.explanation : '') + '</textarea></div>' +
-    '<div class="form-actions"><button class="btn-purple" onclick="saveScenario('' + (s ? s.id : '') + '')">Save scenario</button><button class="btn-ghost" onclick="hideScenarioForm()">Cancel</button></div>' +
-  '</div>';
-  container.classList.remove('hidden');
-  container.scrollIntoView({ behavior: 'smooth', block: 'start' });
-}
-
-function hideScenarioForm() {
-  var c = document.getElementById('scenFormContainer');
-  if (c) { c.classList.add('hidden'); c.innerHTML = ''; }
-}
-
-function saveScenario(existingId) {
-  var message = document.getElementById('sfMessage').value.trim();
-  var routing = document.getElementById('sfRouting').value;
-  var role = document.getElementById('sfRole').value;
-  var qa = document.getElementById('sfQA').value;
-  var explanation = document.getElementById('sfExplanation').value.trim();
-  if (!message || !explanation) { alert('Patient message and explanation are required.'); return; }
-  var scenario = { id: existingId || '', message: message, correct_routing: routing, correct_role: role, correct_quickaction: qa, explanation: explanation, custom: true };
-  fetch('/api/training', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ scenario: scenario }) })
-    .then(function() { hideScenarioForm(); showScenarioManager(); })
-    .catch(function() { alert('Could not save scenario. Please try again.'); });
-}
-
-function deleteScenario(id) {
-  if (!confirm('Delete this custom scenario? This cannot be undone.')) return;
-  fetch('/api/training', { method: 'DELETE', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ id: id }) })
-    .then(function() { showScenarioManager(); })
-    .catch(function() { alert('Could not delete scenario.'); });
-}
-
-function restoreScenario(id) {
-  fetch('/api/training', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ restore: id }) })
-    .then(function() { showScenarioManager(); })
-    .catch(function() { alert('Could not restore scenario.'); });
 }
 </script>
 </body>
