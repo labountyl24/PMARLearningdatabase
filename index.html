@@ -264,6 +264,22 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
 .error-card { background: var(--red-light); border: 1px solid #f0b0ac; border-radius: var(--radius); padding: 12px 16px; font-size: 14px; color: var(--red-text); line-height: 1.6; }
 .hidden { display: none; }
 @media (max-width: 700px) { .shell { grid-template-columns: 1fr; } .sidebar { display: none; } .result-body,.correction-grid,.form-grid,.tpl-grid { grid-template-columns: 1fr; } .analytics-grid { grid-template-columns: 1fr; } .routing-grid { grid-template-columns: repeat(2,1fr); } }
+
+.scen-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem 1.25rem; display: flex; flex-direction: column; gap: 8px; }
+.scen-card-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
+.scen-message { font-size: 14px; color: var(--text); line-height: 1.6; flex: 1; }
+.scen-meta { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+.scen-custom-badge { font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 20px; background: var(--purple-light); color: var(--purple-text); }
+.scen-default-badge { font-size: 10px; padding: 2px 8px; border-radius: 20px; background: var(--surface2); color: var(--text3); }
+.scen-actions { display: flex; gap: 6px; flex-shrink: 0; }
+.btn-scen-edit { background: transparent; color: var(--text2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 5px 12px; font-size: 12px; font-family: "DM Sans", sans-serif; cursor: pointer; }
+.btn-scen-edit:hover { background: var(--surface2); }
+.btn-scen-del { background: transparent; color: var(--text3); border: none; border-radius: var(--radius-sm); padding: 5px 8px; font-size: 12px; font-family: "DM Sans", sans-serif; cursor: pointer; }
+.btn-scen-del:hover { color: var(--red-text); background: var(--red-light); }
+.scen-form { background: var(--surface); border: 1px solid var(--accent); border-radius: var(--radius); padding: 1.25rem; display: flex; flex-direction: column; gap: 12px; animation: fadeUp 0.2s ease; }
+.scen-form-title { font-size: 14px; font-weight: 500; color: var(--accent-text); }
+.scen-manager-header { display: flex; align-items: center; justify-content: space-between; }
+.scen-explanation { font-size: 12px; color: var(--text3); font-style: italic; margin-top: 2px; }
 </style>
 </head>
 <body>
@@ -393,11 +409,12 @@ body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--t
           <div class="training-stat"><div class="training-stat-value" id="trainProgressVal">0/10</div><div class="training-stat-label">Progress</div></div>
         </div>
       </div>
-      <div id="trainingContent"><div style="text-align:center;padding:2rem;">
-        <button class="btn-purple" onclick="startTraining()" style="margin:0 auto;">
+      <div id="trainingContent"><div style="text-align:center;padding:2rem;display:flex;flex-direction:column;align-items:center;gap:12px;">
+        <button class="btn-purple" onclick="startTraining()" style="display:flex;align-items:center;gap:5px;">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
           Start training session
         </button>
+        <button class="btn-ghost" onclick="showScenarioManager()">Manage scenarios</button>
       </div></div>
     </div>
   </main>
@@ -849,6 +866,106 @@ function renderAnalytics(data, el) {
       (corrEntries.length > 0 ? '<div class="metric-card full"><div class="metric-label" style="margin-bottom:12px;">Common routing corrections</div><div class="bar-chart">' + corrEntries.map(function(e) { return '<div class="bar-row"><div class="bar-label">' + e[0] + '</div><div class="bar-track"><div class="bar-fill amber" style="width:' + Math.round((parseInt(e[1]) / parseInt(corrEntries[0][1])) * 100) + '%"></div></div><div class="bar-count">' + e[1] + '</div></div>'; }).join('') + '</div></div>' : '') +
       (rf.length > 0 ? '<div class="metric-card full"><div class="metric-label" style="margin-bottom:12px;">Recent feedback</div><table class="fb-table"><thead><tr><th>AI routing</th><th>Rating</th><th>Notes</th></tr></thead><tbody>' + rf.map(function(f) { return '<tr><td><span class="rbadge ' + getBadge(f.aiRouting) + '" style="font-size:11px;">' + (f.aiRouting || '—') + '</span></td><td><span class="rp rp-' + f.rating + '">' + (f.rating === 'accurate' ? 'Accurate' : f.rating === 'minor_fix' ? 'Minor fix' : 'Incorrect') + '</span></td><td style="font-size:12px;">' + (f.feedbackNote || '—') + '</td></tr>'; }).join('') + '</tbody></table></div>' : '') +
     '</div>';
+}
+
+// ==================== SCENARIO MANAGER ====================
+var allScenarios = [];
+
+function showScenarioManager() {
+  fetch('/api/training?mode=manage').then(function(r) { return r.json(); }).then(function(data) {
+    allScenarios = data.scenarios || [];
+    renderScenarioManager(data.deletedDefaults || []);
+  }).catch(function() {
+    document.getElementById('trainingContent').innerHTML = '<div class="no-data">Could not load scenarios.</div>';
+  });
+}
+
+function renderScenarioManager(deletedDefaults) {
+  deletedDefaults = deletedDefaults || [];
+  var qaLabels = { 'done_after_reply': 'Done after reply', 'schedule_visit': 'Schedule a visit', 'direct_to_evisit': 'Direct to e-visit', 'direct_to_both': 'Direct to both', 'asking_clinician': 'Asking a clinician' };
+  var html = '<div style="display:flex;flex-direction:column;gap:1rem;">';
+  html += '<div class="scen-manager-header"><div><div style="font-size:15px;font-weight:500;">Manage scenarios</div><div style="font-size:13px;color:var(--text2);margin-top:2px;">' + allScenarios.length + ' active (' + allScenarios.filter(function(s){return s.custom;}).length + ' custom, ' + deletedDefaults.length + ' built-in hidden)</div></div><div style="display:flex;gap:8px;"><button class="btn-purple" onclick="showScenarioForm(null)" style="display:flex;align-items:center;gap:5px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>New scenario</button><button class="btn-ghost" onclick="backToTrainingHome()">Back</button></div></div>';
+  html += '<div id="scenFormContainer" class="hidden"></div>';
+  html += '<div style="display:flex;flex-direction:column;gap:10px;" id="scenList">';
+  allScenarios.forEach(function(s) {
+    html += '<div class="scen-card" id="scencard-' + s.id + '">';
+    html += '<div class="scen-card-header"><div class="scen-message">"' + s.message + '"</div><div class="scen-actions">';
+    if (s.custom) {
+      html += '<button class="btn-scen-edit" onclick="showScenarioForm('' + s.id + '')">Edit</button>';
+    }
+    html += '<button class="btn-scen-del" onclick="deleteScenario('' + s.id + '')" title="Remove from training">×</button>';
+    html += '</div></div>';
+    html += '<div class="scen-meta"><span class="rbadge ' + getBadge(s.correct_routing) + '" style="font-size:11px;">' + s.correct_routing + '</span><span style="font-size:12px;color:var(--text2);">' + s.correct_role + '</span><span style="font-size:12px;color:var(--text3);">→ ' + (qaLabels[s.correct_quickaction] || s.correct_quickaction) + '</span>' + (s.custom ? '<span class="scen-custom-badge">Custom</span>' : '<span class="scen-default-badge">Built-in</span>') + '</div>';
+    html += '<div class="scen-explanation">' + s.explanation + '</div>';
+    html += '</div>';
+  });
+  html += '</div>';
+  if (deletedDefaults.length > 0) {
+    html += '<div style="margin-top:1rem;"><div style="font-size:13px;font-weight:500;color:var(--text2);margin-bottom:8px;">Hidden built-in scenarios</div><div style="display:flex;flex-direction:column;gap:8px;">';
+    deletedDefaults.forEach(function(s) {
+      html += '<div style="background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 14px;display:flex;align-items:center;gap:10px;opacity:0.7;">';
+      html += '<span style="flex:1;font-size:13px;color:var(--text2);">"' + s.message.substring(0, 80) + (s.message.length > 80 ? "..." : "") + '"</span>';
+      html += '<button class="btn-scen-edit" onclick="restoreScenario('' + s.id + '')">Restore</button>';
+      html += '</div>';
+    });
+    html += '</div></div>';
+  }
+  html += '</div>';
+  document.getElementById('trainingContent').innerHTML = html;
+}
+
+function backToTrainingHome() {
+  document.getElementById('trainingContent').innerHTML = '<div style="text-align:center;padding:2rem;display:flex;flex-direction:column;align-items:center;gap:12px;"><button class="btn-purple" onclick="startTraining()" style="display:flex;align-items:center;gap:5px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>Start training session</button><button class="btn-ghost" onclick="showScenarioManager()">Manage scenarios</button></div>';
+  document.getElementById('trainingScoreBar').style.display = 'none';
+}
+
+function showScenarioForm(id) {
+  var s = id ? allScenarios.find(function(x) { return x.id === id; }) : null;
+  var container = document.getElementById('scenFormContainer');
+  container.innerHTML = '<div class="scen-form">' +
+    '<div class="scen-form-title">' + (s ? 'Edit scenario' : 'New custom scenario') + '</div>' +
+    '<div class="form-row"><div class="form-label">Patient message (do not include real PHI)</div><textarea class="form-textarea" id="sfMessage" placeholder="Write a realistic patient message without real names or identifiers...">' + (s ? s.message : '') + '</textarea></div>' +
+    '<div class="form-grid">' +
+      '<div class="form-row"><div class="form-label">Correct routing</div><select class="form-select" id="sfRouting"><option' + (!s||s.correct_routing==="PMAR"?" selected":"") + '>PMAR</option><option' + (s&&s.correct_routing==="E-Visit"?" selected":"") + '>E-Visit</option><option' + (s&&s.correct_routing==="Urgent"?" selected":"") + '>Urgent</option><option' + (s&&s.correct_routing==="Unclear"?" selected":"") + '>Unclear</option><option' + (s&&s.correct_routing==="Needs Clinician Input"?" selected":"") + '>Needs Clinician Input</option></select></div>' +
+      '<div class="form-row"><div class="form-label">Correct staff role</div><select class="form-select" id="sfRole"><option' + (!s||s.correct_role==="Front Desk"?" selected":"") + '>Front Desk</option><option' + (s&&s.correct_role==="Medical Assistant"?" selected":"") + '>Medical Assistant</option><option' + (s&&s.correct_role==="Nurse"?" selected":"") + '>Nurse</option><option' + (s&&s.correct_role==="Clinician"?" selected":"") + '>Clinician</option><option' + (s&&s.correct_role==="Behavioral Health"?" selected":"") + '>Behavioral Health</option></select></div>' +
+    '</div>' +
+    '<div class="form-row"><div class="form-label">Correct Epic QuickAction</div><select class="form-select" id="sfQA"><option value="done_after_reply"' + (!s||s.correct_quickaction==="done_after_reply"?" selected":"") + '>Done after reply</option><option value="schedule_visit"' + (s&&s.correct_quickaction==="schedule_visit"?" selected":"") + '>Schedule a visit</option><option value="direct_to_evisit"' + (s&&s.correct_quickaction==="direct_to_evisit"?" selected":"") + '>Direct to e-visit</option><option value="direct_to_both"' + (s&&s.correct_quickaction==="direct_to_both"?" selected":"") + '>Direct to both visit and e-visit</option><option value="asking_clinician"' + (s&&s.correct_quickaction==="asking_clinician"?" selected":"") + '>Asking a clinician</option></select></div>' +
+    '<div class="form-row"><div class="form-label">Explanation (shown after staff submits answer)</div><textarea class="form-textarea" id="sfExplanation" placeholder="Explain why this routing is correct — this is the teaching moment for staff...">' + (s ? s.explanation : '') + '</textarea></div>' +
+    '<div class="form-actions"><button class="btn-purple" onclick="saveScenario('' + (s ? s.id : '') + '')">Save scenario</button><button class="btn-ghost" onclick="hideScenarioForm()">Cancel</button></div>' +
+  '</div>';
+  container.classList.remove('hidden');
+  container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function hideScenarioForm() {
+  var c = document.getElementById('scenFormContainer');
+  if (c) { c.classList.add('hidden'); c.innerHTML = ''; }
+}
+
+function saveScenario(existingId) {
+  var message = document.getElementById('sfMessage').value.trim();
+  var routing = document.getElementById('sfRouting').value;
+  var role = document.getElementById('sfRole').value;
+  var qa = document.getElementById('sfQA').value;
+  var explanation = document.getElementById('sfExplanation').value.trim();
+  if (!message || !explanation) { alert('Patient message and explanation are required.'); return; }
+  var scenario = { id: existingId || '', message: message, correct_routing: routing, correct_role: role, correct_quickaction: qa, explanation: explanation, custom: true };
+  fetch('/api/training', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ scenario: scenario }) })
+    .then(function() { hideScenarioForm(); showScenarioManager(); })
+    .catch(function() { alert('Could not save scenario. Please try again.'); });
+}
+
+function deleteScenario(id) {
+  if (!confirm('Delete this custom scenario? This cannot be undone.')) return;
+  fetch('/api/training', { method: 'DELETE', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ id: id }) })
+    .then(function() { showScenarioManager(); })
+    .catch(function() { alert('Could not delete scenario.'); });
+}
+
+function restoreScenario(id) {
+  fetch('/api/training', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ restore: id }) })
+    .then(function() { showScenarioManager(); })
+    .catch(function() { alert('Could not restore scenario.'); });
 }
 </script>
 </body>
